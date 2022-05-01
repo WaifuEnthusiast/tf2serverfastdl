@@ -1,0 +1,1870 @@
+/////////////////////////////////////////////////////////////////////
+// Helpful debug and console commands for developing MVM population scripts:
+//
+// sv_cheats 1 							// Allows cheat commands.
+// currency_give x						// Give player x amount of game currency to be used on upgrades.
+// tf_populator_health_multiplier x.x	// Multiplies health of enemy bots - example: tf_populator_health_multiplier 0.01 will set health of bots to 1% of normal.
+// tf_mvm_popfile abcd					// Will load the .pop file of the specified name - example tf_mvm_popfile mvm_mapname_challenge2 will load mvm_mapname_challenge2.pop in the tf/scripts/population directory.
+// tf_mvm_jump_to_wave x				// Will jump to the specified wave number of the current .pop file - example tf_mvm_jump_to_wave 6 will jump to wave 6.
+// tf_bot_flag_kill_on_touch 1			// When a bot picks up the flag, they die.
+// host_timescale 10					// timescale up
+// addcond [91, 72, 33, 5]				// Enables Haste, Jump, Crit, and Uber respectively
+/////////////////////////////////////////////////////////////////////
+// BEGIN POP FILE
+/////////////////////////////////////////////////////////////////////
+
+#base gd_summer_robot_total.pop
+
+WaveSchedule
+{
+//Initilaize
+StartingCurrency 1000
+RespawnWaveTime 2
+FixedRespawnWaveTime Yes
+CanBotsAttackWhileInSpawnRoom no
+MaxRedPlayers 2 [$SIGSEGV]
+
+Mission // Sentry Buster - Wave 1 to 2 | 45sec Cooldown - Bomb Trail
+{
+Objective DestroySentries
+InitialCooldown 1
+Where spawnbot_left
+Where spawnbot_right
+Where spawnbot_forwards
+BeginAtWave 1
+RunForThisManyWaves 6
+CooldownTime 45
+DesiredCount 1
+TFBot
+{
+	Template T_Summer_Trail_Buster
+	Tag bot_trashmob
+}
+}
+Mission // Sentry Buster - Wave 3 to 6 | 35sec Cooldown - Bomb Trail
+{
+Objective DestroySentries
+InitialCooldown 1
+Where spawnbot_left
+Where spawnbot_right
+Where spawnbot_forwards
+BeginAtWave 3
+RunForThisManyWaves 4
+CooldownTime 35
+DesiredCount 2
+TFBot
+{
+	Template T_Summer_Trail_Buster
+	Tag bot_trashmob
+}
+}
+// ---------------------------------------------------------------------------
+// WAVE 01 | Money: 1000 + 900 (this wave) + 100 (bonus) = 2000
+// Group 1: 1 Giant Sandman Scout 
+// Group 2A: 12 Gas Passer Pyros + 24 Sun-on-a-Stick Scouts
+// Group 2B: 12 Shotgun Heavy + 24 Boxing Heavy (L&R)
+// Group 3: 2 Heater Heavy + 6 QuickFix Medics | Sun-on-a-Stick (L&R) Scout Support
+Wave	
+{
+WaitWhenDone 60
+Sound "Announcer.IncomingMob"
+Checkpoint Yes
+
+StartWaveOutput
+{
+	Target wave_start_relay
+	Action trigger
+}
+DoneOutput												
+{
+	Target wave_finished_relay						
+	Action trigger									
+}
+
+WaveSpawn //Giant Scout | 50
+{
+	Name "w1_group1"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 1
+	MaxActive 1
+	SpawnCount 1
+	WaitBeforeStarting 0
+	WaitBetweenSpawns 2
+	TotalCurrency 50
+
+	TFBot
+	{
+		Template T_Summer_Giant_Scout_Baseball
+		CharacterAttributes
+			{
+				"move speed bonus" 0.8
+			}
+		Health 1500
+		Attributes AlwaysCrit
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn //Gas Passer Pyros | 120
+{
+	Name "w1_group2A"
+	WaitForAllSpawned "w1_group1"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 12
+	MaxActive 6
+	SpawnCount 2
+	WaitBeforeStarting 10
+	WaitBetweenSpawns 5
+	TotalCurrency 120	
+
+	TFBot
+	{
+		Template T_Summer_Pyro_Gas
+		CharacterAttributes
+		{
+			"move speed bonus" 0.8
+		}
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn //Sun-On-A-Stick Scouts | 120
+{
+	Name "w1_group2A"
+	WaitForAllSpawned "w1_group1"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 24
+	MaxActive 12
+	SpawnCount 4
+	WaitBeforeStarting 10
+	WaitBetweenSpawns 5
+	TotalCurrency 120	
+
+	TFBot
+	{
+		Template T_Summer_Scout_Melee
+		CharacterAttributes
+		{
+			"move speed bonus" 0.8
+		}
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn //Shotgun Boxing Heavies Left | 180
+{
+	Name "w1_group2B"
+	WaitForAllDead "w1_group1"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 18
+	MaxActive 9
+	SpawnCount 3
+	WaitBeforeStarting 10
+	WaitBetweenSpawns 5
+	TotalCurrency 180
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Boxing_Heavy
+			CharacterAttributes
+			{
+				"move speed bonus" 0.8
+			}
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_HeavyWeapons_Shotgun
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_HeavyWeapons_Shotgun
+			BehaviorModifiers Push
+		}
+	}
+}
+WaveSpawn //Shotgun Boxing Heavies Right | 180
+{
+	Name "w1_group2B"
+	WaitForAllDead "w1_group1"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 18
+	MaxActive 9
+	SpawnCount 3
+	WaitBeforeStarting 10
+	WaitBetweenSpawns 5
+	TotalCurrency 180
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Boxing_Heavy
+			CharacterAttributes
+			{
+				"move speed bonus" 0.8
+			}
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_HeavyWeapons_Shotgun
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_HeavyWeapons_Shotgun
+			BehaviorModifiers Push
+		}
+	}
+}
+WaveSpawn //Scout Sun-On-A-Stick Support | 50
+{
+	Name "w1_support"
+	WaitForAllSpawned "w1_group2A"
+	Where spawnbot_left
+	Where spawnbot_right
+	Where spawnbot_forwards
+	MaxActive 8
+	SpawnCount 4
+	WaitBeforeStarting 0
+	WaitBetweenSpawns 8
+	TotalCurrency 50
+	Support 1
+	TFBot
+	{
+		Template T_Summer_Scout_Melee
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn // Heater Heavy & QuickUber Left | 100
+{
+	Name "w1_group3"
+	WaitForAllSpawned "w1_group2A"
+	WaitForAllSpawned "w1_group2B"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 4
+	MaxActive 4
+	SpawnCount 4
+	WaitBeforeStarting 12
+	TotalCurrency 100
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Heavyweapons_Heater
+			ItemAttributes
+			{
+				ItemName "The Huo Long Heatmaker"
+				"damage bonus" 0.5 //50% Damage
+			}
+			BehaviorModifiers Push
+			Tag bot_giant
+			Tag bot_boss
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+		}
+	}
+}
+WaveSpawn // Heater Heavy & QuickUber Right | 100
+{
+	Name "w1_group3"
+	WaitForAllSpawned "w1_group2A"
+	WaitForAllSpawned "w1_group2B"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 4
+	MaxActive 4
+	SpawnCount 4
+	WaitBeforeStarting 12
+	TotalCurrency 100
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Heavyweapons_Heater
+			ItemAttributes
+			{
+				ItemName "The Huo Long Heatmaker"
+				"damage bonus" 0.5 //50% Damage
+			}
+			BehaviorModifiers Push
+			Tag bot_giant
+			Tag bot_boss
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+		}
+	}
+}
+}
+// ---------------------------------------------------------------------------
+// WAVE 02 | Money: 2000 +  800(this wave) + 100 (bonus) = 2900
+// Group 1: Soldier Jumping (L&R)
+// Group 2A: 8 Football Demo + 8 BlackBox Soldier | Support Football Demo
+// Group 2B: 4 Boxing Heavy + 4 QuickFix Medics
+// Group 3: 1 Giant Beach Demo + 4 Uber Medics
+Wave	
+{
+WaitWhenDone 60
+Sound "Announcer.IncomingMob"
+Checkpoint Yes
+
+StartWaveOutput
+{
+	Target wave_start_relay
+	Action trigger
+}
+DoneOutput												
+{
+	Target wave_finished_relay						
+	Action trigger									
+}
+
+WaveSpawn //Soldier Jumping Left | 180
+{
+	Name "w1_group1"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 18
+	MaxActive 9
+	SpawnCount 3
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 5
+	TotalCurrency 180
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Soldier_Jumping
+			CharacterAttributes
+			{
+				"move speed bonus" 0.8
+			}
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Soldier_Jumping
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Soldier_Jumping
+			BehaviorModifiers Push
+		}
+	}
+}
+WaveSpawn //Soldier Jumping Right | 180
+{
+	Name "w2_group1"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 18
+	MaxActive 9
+	SpawnCount 3
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 5
+	TotalCurrency 180
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Soldier_Jumping
+			CharacterAttributes
+			{
+				"move speed bonus" 0.8
+			}
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Soldier_Jumping
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Soldier_Jumping
+			BehaviorModifiers Push
+		}
+	}
+}
+WaveSpawn //Football Demos | 80
+{
+	Name "w2_group2A"
+	WaitForAllSpawned "w2_group1"
+	Where spawnbot_left
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 16
+	MaxActive 8
+	SpawnCount 4
+	WaitBeforeStarting 0
+	WaitBetweenSpawns 4
+	TotalCurrency 80
+	TFBot
+	{
+		Template T_Summer_Demo_Burst_Soccer
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn //BlackBox Soldiers | 80
+{
+	Name "w2_group2A"
+	WaitForAllSpawned "w2_group1"
+	Where spawnbot_left
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 16
+	MaxActive 8
+	SpawnCount 4
+	WaitBeforeStarting 0
+	WaitBetweenSpawns 8
+	TotalCurrency 80
+	TFBot
+	{
+		Template T_Summer_Soldier_RocketShotgun
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn //Football Demo Support | 100
+{
+	Name "w2_support"
+	WaitForAllSpawned "w2_group2A"
+	WaitForAllSpawned "w2_group2B"
+	Where spawnbot_left
+	Where spawnbot_right
+	Where spawnbot_forwards
+	MaxActive 6
+	SpawnCount 2
+	WaitBeforeStarting 0
+	WaitBetweenSpawns 8
+	TotalCurrency 100
+	Support 1
+	TFBot
+	{
+		Template T_Summer_Demo_Burst_Soccer
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn //Boxing Heavy & QuickFix | 80
+{
+	Name "w2_group2B"
+	WaitForAllSpawned "w2_group1"
+	Where spawnbot_left
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 8
+	MaxActive 6
+	SpawnCount 2
+	WaitBeforeStarting 5
+	WaitBetweenSpawns 8
+	TotalCurrency 80
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Boxing_Heavy
+			Health 450
+			CharacterAttributes
+			{
+				"move speed bonus" 0.6
+			}
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_Superheal
+			Tag bot_squad_member
+		}
+	}
+}
+WaveSpawn // Giant Boss Demo & Uber Medics | 100
+{
+	Name "w2_group3"
+	WaitForAllSpawned "w2_group2A"
+	WaitForAllSpawned "w2_group2B"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 5
+	MaxActive 5
+	SpawnCount 5
+	WaitBeforeStarting 12
+	TotalCurrency 100
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Demo_Burst_Beach
+			Health 6000
+			BehaviorModifiers Push
+			Tag bot_giant
+			Tag bot_boss
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+	}
+}
+}
+// ---------------------------------------------------------------------------
+// WAVE 03 | Money: 2900 +  800(this wave) + 100 (bonus) = 3800
+// Group 1A: 4 Giant Gas Passer + 8 Dragon's Fury (L&R)
+// Group 1B: 4 Giant Demoknights 4 Spammer Soldiers//ADD KB
+// Group 2A: 8 Pyro + 16 Huntsman (L&R)
+// Group 2B: 12 Crit Flare + 12 Crit Sandman
+// Group 3A: Soldier Boss & 4 Uber
+Wave	
+{
+StartWaveOutput
+{
+	Target wave_start_relay
+	Action trigger
+}
+DoneOutput												
+{
+	Target wave_finished_relay						
+	Action trigger									
+}
+
+WaveSpawn //Giant Gas & Fury Left | 60
+{
+	Name "w3_group1A"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 9
+	MaxActive 6
+	SpawnCount 3
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 18
+	TotalCurrency 60
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Pyro_Gas
+			CharacterAttributes
+			{
+				"move speed bonus" 0.7
+			}
+			BehaviorModifiers Push
+			Tag bot_giant
+			Tag bot_boss
+		}
+		TFBot
+		{
+			Template T_Summer_Pyro_DragonFury
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Pyro_DragonFury
+			BehaviorModifiers Push
+		}
+	}
+}
+WaveSpawn //Giant Gas & Fury Right | 60
+{
+	Name "w3_group1A"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 9
+	MaxActive 6
+	SpawnCount 3
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 18
+	TotalCurrency 60
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Pyro_Gas
+			CharacterAttributes
+			{
+				"move speed bonus" 0.7
+			}
+			BehaviorModifiers Push
+			Tag bot_giant
+			Tag bot_boss
+		}
+		TFBot
+		{
+			Template T_Summer_Pyro_DragonFury
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Pyro_DragonFury
+			BehaviorModifiers Push
+		}
+	}
+}
+WaveSpawn //Giant Demoknights | 60
+{
+	Name "w3_group1B"
+	Where spawnbot_left
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 6
+	MaxActive 4
+	SpawnCount 1
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 12
+	TotalCurrency 60
+
+	TFBot
+	{
+		Template T_Summer_Giant_DemoKnight
+		Tag bot_giant
+		Tag bot_boss
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn //Giant Demoknights | 60
+{
+	Name "w3_group1B"
+	Where spawnbot_left
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 4
+	MaxActive 4
+	SpawnCount 1
+	WaitBeforeStarting 8
+	WaitBetweenSpawns 12
+	TotalCurrency 60
+
+	TFBot
+	{
+		Template T_Summer_Giant_Soldier_Spammer_Jumping
+		Health 2300
+		Tag bot_giant
+		Tag bot_boss
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn //Pyro Huntsman Left| 120
+{
+	Name "w3_group2A"
+	WaitForAllDead "w3_group1A"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 12
+	MaxActive 6
+	SpawnCount 3
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 6
+	TotalCurrency 120
+	
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Pyro_AlwaysFire
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Sniper_Huntsman
+			BehaviorModifiers Push
+			ItemAttributes
+			{
+				ItemName "The Huntsman"
+				"damage bonus" 0.8
+			}
+		}
+		TFBot
+		{
+			Template T_Summer_Sniper_Huntsman
+			BehaviorModifiers Push
+			ItemAttributes
+			{
+				ItemName "The Huntsman"
+				"damage bonus" 0.8
+			}
+		}
+	}
+}
+WaveSpawn //Pyro Huntsman right| 120
+{
+	Name "w3_group2A"
+	WaitForAllDead "w3_group1A"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 12
+	MaxActive 6
+	SpawnCount 3
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 6
+	TotalCurrency 120
+	
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Pyro_AlwaysFire
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Sniper_Huntsman
+			BehaviorModifiers Push
+			ItemAttributes
+			{
+				ItemName "The Huntsman"
+				"damage bonus" 0.8
+			}
+		}
+		TFBot
+		{
+			Template T_Summer_Sniper_Huntsman
+			BehaviorModifiers Push
+			ItemAttributes
+			{
+				ItemName "The Huntsman"
+				"damage bonus" 0.8
+			}
+		}
+	}
+}
+WaveSpawn // Flare & Sandman | 120
+{
+	Name "w3_group2B"
+	WaitForAllSpawned "w3_group1B"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 24
+	MaxActive 12
+	SpawnCount 4
+	WaitBeforeStarting 10
+	WaitBetweenSpawns 4
+	TotalCurrency 120
+	
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Scout_Sandman_FastCharge
+			BehaviorModifiers Push
+			Attributes AlwaysCrit
+		}
+		TFBot
+		{
+			Template T_Summer_Pyro_Flaregun
+			BehaviorModifiers Push
+			Attributes AlwaysCrit
+		}
+	}
+}
+WaveSpawn // Soldier Boss & Medics | 100
+{
+	Name "w3_group3"
+	WaitForAllDead "w3_group2B"
+	WaitForAllDead "w3_group2A"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 5
+	MaxActive 5
+	SpawnCount 5
+	WaitBeforeStarting 6
+	WaitBetweenSpawns 2
+	TotalCurrency 100
+	
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Soldier_Boss
+			Tag bot_giant
+			Tag bot_boss
+			BehaviorModifiers Push
+			Attributes AlwaysCrit
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+	}
+}
+WaveSpawn // Soldier Jumpers | 100
+{
+	Name "w3_group3"
+	WaitForAllDead "w3_group2B"
+	WaitForAllDead "w3_group2A"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	MaxActive 6
+	SpawnCount 2
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 15
+	TotalCurrency 100
+	Support 1
+	TFBot
+	{
+		Template T_Summer_Soldier_Jumping_Final
+		BehaviorModifiers Push
+		ItemAttributes
+		{
+			ItemName "The Libery Launcher"
+			"damage bonus" 0.4
+			"fire rate bonus" 2.0
+		}
+	}
+}
+
+}
+// ---------------------------------------------------------------------------
+// WAVE 04 | Money: 3800 +  1000 (this wave) + 100(bonus) = 4900
+// Group 1A: 2 Giant Boxing Heavies + 6 Uber Medics (L&R)
+// Group 1B: 16 HeavyWeapons Rockets (L&R)
+// Group 2A: 4 Soldier Spammers Jumping Boss  (L&R)
+// Group 2B: 16 Demo Burst
+// Group 3A: Heavyweapons Rockets
+// Group 3B: 4 Giant Black Box (L&R)
+// Group 3S: 6 Melee Conch & 12 RocketShotgun
+Wave
+{
+StartWaveOutput
+{
+	Target wave_start_relay
+	Action trigger
+}
+DoneOutput												
+{
+	Target wave_finished_relay						
+	Action trigger									
+}
+
+WaveSpawn // Giant Boxing + Uber Left | 100
+{
+	Name "w4_group1A"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 4
+	MaxActive 4
+	SpawnCount 4
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 2
+	TotalCurrency 100
+	
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Boxing_Heavy
+			Health 5000
+			BehaviorModifiers Push
+			Attributes AlwaysCrit
+			Tag bot_giant
+			Tag bot_boss
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+	}
+}
+WaveSpawn // Giant Boxing + Uber Right | 100
+{
+	Name "w4_group1A"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 4
+	MaxActive 4
+	SpawnCount 4
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 2
+	TotalCurrency 100
+	
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Boxing_Heavy
+			Health 5000
+			BehaviorModifiers Push
+			Attributes AlwaysCrit
+			Tag bot_giant
+			Tag bot_boss
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+	}
+}
+WaveSpawn // Rocketheavy Left | 100
+{
+	Name "w4_group1B"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 8
+	MaxActive 4
+	SpawnCount 4
+	WaitBeforeStarting 5
+	WaitBetweenSpawns 8
+	TotalCurrency 100
+	
+	TFBot
+	{
+		Template T_Summer_Heavy_Rockets
+		BehaviorModifiers Push
+		Attributes AlwaysCrit
+	}
+}
+WaveSpawn // Rocketheavy right | 100
+{
+	Name "w4_group1B"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 8
+	MaxActive 4
+	SpawnCount 4
+	WaitBeforeStarting 5
+	WaitBetweenSpawns 8
+	TotalCurrency 100
+	
+	TFBot
+	{
+		Template T_Summer_Heavy_Rockets
+		BehaviorModifiers Push
+		Attributes AlwaysCrit
+	}
+}
+WaveSpawn // Crit Soldier Spammer + Heavy Boxing Left | 100
+{
+	Name "w4_group2A"
+	WaitForAllDead "w4_group1A"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 8
+	MaxActive 8
+	SpawnCount 4
+	WaitBeforeStarting 3
+	WaitBetweenSpawns 10
+	TotalCurrency 100
+	
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Soldier_Spammer_Jumping
+			Tag bot_giant
+			Tag bot_boss
+			BehaviorModifiers Push
+			Health 1500
+			Attributes AlwaysCrit
+			CharacterAttributes
+			{
+				"Projectile speed increased" 0.3
+			}
+		}
+		TFBot
+		{
+			Template T_Summer_Boxing_Heavy
+			Attributes AlwaysCrit
+			Tag bot_squad_member
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Boxing_Heavy
+			Attributes AlwaysCrit
+			Tag bot_squad_member
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Boxing_Heavy
+			Attributes AlwaysCrit
+			Tag bot_squad_member
+			BehaviorModifiers Push
+		}
+	}
+}
+WaveSpawn // Crit Soldier Spammer + Heavy Boxing right | 100
+{
+	Name "w4_group2A"
+	WaitForAllDead "w4_group1A"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 8
+	MaxActive 8
+	SpawnCount 4
+	WaitBeforeStarting 3
+	WaitBetweenSpawns 10
+	TotalCurrency 100
+	
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Soldier_Spammer_Jumping
+			Tag bot_giant
+			Tag bot_boss
+			BehaviorModifiers Push
+			Attributes AlwaysCrit
+			Health 1500
+			CharacterAttributes
+			{
+				"Projectile speed increased" 0.3
+			}
+		}
+		TFBot
+		{
+			Template T_Summer_Boxing_Heavy
+			Attributes AlwaysCrit
+			Tag bot_squad_member
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Boxing_Heavy
+			Attributes AlwaysCrit
+			Tag bot_squad_member
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Boxing_Heavy
+			Attributes AlwaysCrit
+			Tag bot_squad_member
+			BehaviorModifiers Push
+		}
+	}
+}
+WaveSpawn //Football Demos | 80
+{
+	Name "w4_group2B"
+	WaitForAllDead "w4_group1A"
+	Where spawnbot_left
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 16
+	MaxActive 8
+	SpawnCount 4
+	WaitBeforeStarting 0
+	WaitBetweenSpawns 4
+	TotalCurrency 80
+	TFBot
+	{
+		Template T_Summer_Demo_Burst_Soccer
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn //HeavyWeapons Rockets | 80
+{
+	Name "w4_group3A"
+	WaitForAllDead "w4_group2A"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 1
+	MaxActive 1
+	SpawnCount 1
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 4
+	TotalCurrency 80
+	TFBot
+	{
+		Template T_Summer_Giant_Heavyweapons_Rockets
+		Health 7500
+		Attributes AlwaysCrit
+		BehaviorModifiers Push
+		Tag bot_giant
+		Tag bot_boss
+	}
+}
+WaveSpawn //BB left | 80
+{
+	Name "w4_group3B"
+	WaitForAllDead "w4_group2B"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 1
+	MaxActive 1
+	SpawnCount 1
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 12
+	TotalCurrency 80
+	TFBot
+	{
+		Template T_Summer_Giant_Soldier_RocketShotgun
+		Health 2300
+		BehaviorModifiers Push
+		Tag bot_giant
+		Tag bot_boss
+	}
+}
+WaveSpawn //BB right | 80
+{
+	Name "w4_group3B"
+	WaitForAllDead "w4_group2B"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 1
+	MaxActive 1
+	SpawnCount 1
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 12
+	TotalCurrency 80
+	TFBot
+	{
+		Template T_Summer_Giant_Soldier_RocketShotgun
+		Tag bot_giant
+		Tag bot_boss
+		Health 2300
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn //Melee Conch + RocketShotguns | 80
+{
+	Name "w4_group3S"
+	WaitForAllDead "w4_group2A"
+	WaitForAllDead "w4_group2B"
+	
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 48
+	MaxActive 12
+	SpawnCount 3
+	WaitBeforeStarting 1
+	WaitBetweenSpawns 6
+	TotalCurrency 80
+	Support Limited
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Soldier_Melee_Concheror
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Soldier_Jumping_Final
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Summer_Soldier_Jumping_Final
+			BehaviorModifiers Push
+		}
+	}
+}
+
+}
+// ---------------------------------------------------------------------------
+// WAVE 05 | Money: 4900 +  1000 (this wave) + 100 (bonus) = 6000
+// Group 1A: 18 Sniper Bursts (L&R)
+// Group 1B: 4 Giant Pyro + 8 Uber Medics (L&R)
+// Group 2A: 6 Giant Scouts (L&R)
+// Group 2B: 12 Crit Flare Pyros + 24 Gas Pyros 
+// Group 3A: 2 Giant Dragons Fury + 4 Uber Medics
+// Group 3S: Gas & Axe Support 
+Wave
+{
+StartWaveOutput
+{
+	Target wave_start_relay
+	Action trigger
+}
+DoneOutput												
+{
+	Target wave_finished_relay						
+	Action trigger									
+}
+
+WaveSpawn //Sniper Burst left | 80
+{
+	Name "w5_group1A"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 9
+	MaxActive 6
+	SpawnCount 1
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 6
+	TotalCurrency 80
+	TFBot
+	{
+		Template T_Summer_Sniper_Rifle_Burst
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn //Sniper Burst right | 80
+{
+	Name "w5_group1A"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 9
+	MaxActive 6
+	SpawnCount 1
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 6
+	TotalCurrency 80
+	TFBot
+	{
+		Template T_Summer_Sniper_Rifle_Burst
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn //Giant Pyro & Uber Left | 80
+{
+	Name "w5_group1B"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 8
+	MaxActive 8
+	SpawnCount 4
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 8
+	TotalCurrency 80
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Pyro_AlwaysFire
+			Attributes AlwaysCrit
+			BehaviorModifiers Push
+			Tag bot_giant
+			Tag bot_boss
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+	}
+}
+WaveSpawn //Giant Pyro & Uber Right | 80
+{
+	Name "w5_group1B"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 8
+	MaxActive 8
+	SpawnCount 4
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 8
+	TotalCurrency 80
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Pyro_AlwaysFire
+			Attributes AlwaysCrit
+			BehaviorModifiers Push
+			Tag bot_giant
+			Tag bot_boss
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+	}
+}
+WaveSpawn //Giant Scouts Left | 80
+{
+	Name "w5_group2A"
+	WaitForAllDead "w5_group1A"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 3
+	MaxActive 2
+	SpawnCount 1
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 8
+	TotalCurrency 80
+	TFBot
+	{
+		Template T_Summer_Giant_Scout_FAN
+		BehaviorModifiers Push
+		Tag bot_giant
+		Tag bot_boss
+	}
+}
+WaveSpawn //Giant Scouts Right | 80
+{
+	Name "w5_group2A"
+	WaitForAllDead "w5_group1A"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 3
+	MaxActive 2
+	SpawnCount 1
+	WaitBeforeStarting 2
+	WaitBetweenSpawns 8
+	TotalCurrency 80
+	TFBot
+	{
+		Template T_Summer_Giant_Scout_FAN
+		BehaviorModifiers Push
+		Tag bot_giant
+		Tag bot_boss
+	}
+}
+WaveSpawn // Flare & Gas | 130
+{
+	Name "w5_group2B"
+	WaitForAllSpawned "w5_group1B"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 24
+	MaxActive 12
+	SpawnCount 3
+	WaitBeforeStarting 4
+	WaitBetweenSpawns 4
+	TotalCurrency 130
+	
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Pyro_Gas
+			Health 900
+			Scale 1.2
+			BehaviorModifiers Push
+			Attributes AlwaysCrit
+		}
+		TFBot
+		{
+			Template T_Summer_Pyro_Flaregun
+			ItemAttributes
+			{
+				ItemName "The Flare Gun"
+				"damage penalty" 0.8
+				"fire rate bonus" 0.2
+			}
+			BehaviorModifiers Push
+			Attributes AlwaysCrit
+		}
+		TFBot
+		{
+			Template T_Summer_Pyro_Flaregun
+			ItemAttributes
+			{
+				ItemName "The Flare Gun"
+				"damage penalty" 0.8
+				"fire rate bonus" 0.2
+			}
+			BehaviorModifiers Push
+			Attributes AlwaysCrit
+		}
+	}
+}
+WaveSpawn // Giant DF + Uber Left | 130
+{
+	Name "w5_group3A"
+	WaitForAllDead "w5_group2A"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 4
+	MaxActive 4
+	SpawnCount 4
+	WaitBeforeStarting 4
+	WaitBetweenSpawns 4
+	TotalCurrency 130
+	
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Pyro_DragonFury
+			BehaviorModifiers Push
+			Attributes AlwaysCrit
+			Tag bot_giant
+			Tag bot_boss
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+	}
+}
+WaveSpawn // Giant DF + Uber Right | 130
+{
+	Name "w5_group3A"
+	WaitForAllDead "w5_group2A"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 4
+	MaxActive 4
+	SpawnCount 4
+	WaitBeforeStarting 4
+	WaitBetweenSpawns 4
+	TotalCurrency 130
+	
+	Squad
+	{
+		TFBot
+		{
+			Template T_Summer_Giant_Pyro_DragonFury
+			BehaviorModifiers Push
+			Attributes AlwaysCrit
+			Tag bot_giant
+			Tag bot_boss
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+		TFBot
+		{
+			Template T_Summer_Medic_QuickUber
+			Tag bot_squad_member
+		}
+	}
+}
+WaveSpawn // Axe Support | 130
+{
+	Name "w5_group3S"
+	WaitForAllSpawned "w5_group2A"
+	WaitForAllSpawned "w5_group2B"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 24
+	MaxActive 12
+	SpawnCount 3
+	WaitBeforeStarting 4
+	WaitBetweenSpawns 4
+	TotalCurrency 130
+	Support 1
+	
+		TFBot
+		{
+			Template T_Summer_Pyro_Axtinguisher
+			BehaviorModifiers Push
+			Attributes AlwaysCrit
+		}
+}
+}
+// ---------------------------------------------------------------------------
+// WAVE 06 | Money: 2000 +  69420 (this wave) + 100(bonus) = 71520
+// Group 1:  1 Crit Giant Demo Boss + 1 Giant Medic (Beach Balls)
+// Group 2A: 12 Crit Demo Burst + 24 Crit Sandman (L&R)
+// Group 2B: 4 Giant Crit Sandman
+// Group 3A: 24Heavy Steels
+// Group 3B: Sniper Burst Boss + Medic
+// Group 3C: 2 Airborne Soldiers Boss (L&R)
+// Group 3S: Airborn Soldiers Support
+Wave
+{
+	StartWaveOutput
+	{
+		Target wave_start_relay
+		Action trigger
+	}
+	DoneOutput												
+	{
+		Target wave_finished_relay						
+		Action trigger									
+	}
+	
+	WaveSpawn // Giant Boss Demo & Uber Medics | 100
+	{
+		Name "w6_group1"
+		Where spawnbot_right
+		Where spawnbot_forwards
+		TotalCount 2
+		MaxActive 2
+		SpawnCount 2
+		WaitBeforeStarting 2
+		TotalCurrency 100
+		Squad
+		{
+			TFBot
+			{
+				Template T_Summer_Giant_Demo_Burst_Beach
+				Name "Ground Lead"
+				Attributes AlwaysCrit
+				Health 5000
+				BehaviorModifiers Push
+				Tag bot_giant
+				Tag bot_boss
+				CharacterAttributes
+				{
+					"move speed bonus" 0.5
+				}
+			}
+			TFBot
+			{
+				Template T_Summer_Giant_Medic_Bigheal
+				Name "Ground Care"
+				Health 1500
+				Tag bot_squad_member
+			}
+		}
+	}
+	WaveSpawn // Burst Demo & DH Soldiers| 100
+	{
+		Name "w6_group2A"
+		WaitForAllDead "w6_group1"
+		Where spawnbot_left
+		Where spawnbot_forwards
+		TotalCount 18
+		MaxActive 9
+		SpawnCount 3
+		WaitBeforeStarting 1
+		WaitBetweenSpawns 4
+		TotalCurrency 100
+		Squad
+		{
+			TFBot
+			{
+				Template T_Summer_Demo_Burst_Soccer
+				Attributes AlwaysCrit
+				BehaviorModifiers Push
+			}
+			TFBot
+			{
+				Template T_Summer_Soldier_Direct
+				Attributes AlwaysCrit
+				Tag bot_squad_member
+			}
+			TFBot
+			{
+				Template T_Summer_Soldier_Direct
+				Attributes AlwaysCrit
+				Tag bot_squad_member
+			}
+		}
+	}
+	WaveSpawn // Burst Demo & Uber Medics Right | 100
+	{
+		Name "w6_group2A"
+		WaitForAllDead "w6_group1"
+		Where spawnbot_right
+		Where spawnbot_forwards
+		TotalCount 18
+		MaxActive 9
+		SpawnCount 3
+		WaitBeforeStarting 1
+		WaitBetweenSpawns 4
+		TotalCurrency 100
+		Squad
+		{
+			TFBot
+			{
+				Template T_Summer_Demo_Burst_Soccer
+				Attributes AlwaysCrit
+				BehaviorModifiers Push
+			}
+			TFBot
+			{
+				Template T_Summer_Soldier_Direct
+				Attributes AlwaysCrit
+				Tag bot_squad_member
+			}
+			TFBot
+			{
+				Template T_Summer_Soldier_Direct
+				Attributes AlwaysCrit
+				Tag bot_squad_member
+			}
+		}	
+	}
+	WaveSpawn // Giant Crit Sandman | 100
+	{
+		Name "w6_group2B"
+		WaitForAllDead "w6_group2A"
+		Where spawnbot_right
+		Where spawnbot_left
+		Where spawnbot_forwards
+		TotalCount 4
+		MaxActive 4
+		SpawnCount 2
+		WaitBeforeStarting 2
+		WaitBetweenSpawns 8
+		TotalCurrency 100
+
+			TFBot
+			{
+				Template T_Summer_Giant_Scout_Baseball
+				Name "Ground Cleanup"
+				Attributes AlwaysCrit
+				BehaviorModifiers Push
+				Tag bot_boss
+				Tag bot_giant
+			}
+
+	}
+	WaveSpawn // Steels | 100
+	{
+		Name "w6_group3A"
+		WaitForAllDead "w6_group2A"
+		Where spawnbot_right
+		Where spawnbot_left
+		Where spawnbot_forwards
+		TotalCount 24
+		MaxActive 8
+		SpawnCount 4
+		WaitBeforeStarting 4
+		WaitBetweenSpawns 12
+		TotalCurrency 100
+		Squad
+		{
+			TFBot
+			{
+				Template T_Summer_HeavySteel
+				CharacterAttributes
+				{
+					"move speed bonus" 0.75
+				}
+				BehaviorModifiers Push
+			}
+			TFBot
+			{
+				Template T_Summer_HeavySteel
+				CharacterAttributes
+				{
+					"move speed bonus" 0.75
+				}
+				BehaviorModifiers Push
+			}
+		}
+	}
+	WaveSpawn // Giant Sniper Boss Right | 100
+	{
+		Name "w6_group3B"
+		WaitForAllDead "w6_group2B"
+		Where spawnbot_right
+		Where spawnbot_left
+		Where spawnbot_forwards
+		TotalCount 2
+		MaxActive 2
+		SpawnCount 2
+		WaitBeforeStarting 4
+		WaitBetweenSpawns 6
+		TotalCurrency 100
+		Squad
+		{
+			TFBot
+			{
+				Template T_Summer_Sniper_Rifle_Burst_Giant
+				Attributes UseBossHealthBar
+				CharacterAttributes
+				{
+					"move speed bonus" 0.4
+				}
+				Tag bot_giant
+				Tag bot_boss
+				BehaviorModifiers Push
+			}
+			TFBot
+			{
+				Template T_Summer_Giant_Medic_Bigheal
+				Tag bot_giant
+				Tag bot_boss
+				Attributes UseBossHealthBar
+				Health 2500
+				Tag bot_squad_member
+			}
+		}
+	}
+	WaveSpawn // Giant Soldier Boss Left| 34,360
+	{
+		Name "w6_group3C"
+		WaitForAllDead "w6_group2B"
+		Where spawnbot_left
+		Where spawnbot_forwards
+		TotalCount 1
+		MaxActive 1
+		SpawnCount 1
+		WaitBeforeStarting 2
+		WaitBetweenSpawns 0
+		TotalCurrency 34360
+		TFBot
+		{
+			Template T_Summer_Giant_Soldier_Spammer_Jumping_Boss
+			CharacterAttributes
+			{
+				"move speed bonus" 0.6
+			}
+			Tag bot_giant
+			Tag bot_boss
+			BehaviorModifiers Push
+		}
+	}
+	WaveSpawn // Giant Soldier Boss Right| 34,360
+	{
+		Name "w6_group3C"
+		WaitForAllDead "w6_group2B"
+		Where spawnbot_right
+		Where spawnbot_forwards
+		TotalCount 1
+		MaxActive 1
+		SpawnCount 1
+		WaitBeforeStarting 2
+		WaitBetweenSpawns 0
+		TotalCurrency 34360
+		TFBot
+		{
+			Template T_Summer_Giant_Soldier_Spammer_Jumping_Boss
+			Attributes AlwaysCrit
+			CharacterAttributes
+			{
+				"move speed bonus" 0.6
+			}
+			Tag bot_giant
+			Tag bot_boss
+			BehaviorModifiers Push
+		}
+	}
+	WaveSpawn //Soldier Jumpers| 100
+	{
+		Name "w6_group3C"
+		WaitForAllDead "w6_group2B"
+		Where spawnbot_left
+		Where spawnbot_right
+		Where spawnbot_forwards
+		MaxActive 6
+		SpawnCount 3
+		WaitBeforeStarting 2
+		WaitBetweenSpawns 12
+		TotalCurrency 100
+		Support 1
+		TFBot
+		{
+			Template T_Summer_Soldier_Jumping_Final
+			BehaviorModifiers Push
+		}
+	}
+}
+// Don't go beneath this line
+}

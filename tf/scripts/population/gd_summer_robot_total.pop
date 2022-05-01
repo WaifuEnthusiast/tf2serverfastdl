@@ -1,0 +1,2185 @@
+// This File contains Templates used for mvm_gd_summer
+// Bots are themed cosmetically (Winter, Summer, Halloween)
+// Custom Icons Used:
+//
+// pyro_dragon_fury
+// pyro_jug_axtinguisher
+// pyro_scorchshot
+// sentry_buster_atomic
+// solider_directhit
+//
+//
+//
+//
+//
+WaveSchedule
+{	
+	//Special
+	Templates
+	{
+	//Busters
+		T_Winter_Trail_Buster // Drops Gifts (3000 HP | 200% Move)
+		{
+			
+			Name "Gift Buster"
+			ClassIcon sentry_buster_atomic
+			Class Demoman
+			Skill Easy
+			Health 3000
+			Attributes MiniBoss
+			Attributes AlwaysFireWeapon
+			Attributes DisableDodge
+			Scale 2	
+			Item "The Iron Bomber"
+			WeaponRestrictions PrimaryOnly
+			CharacterAttributes
+			{
+				"move speed bonus" 2
+				"damage force reduction" 0.5
+				"airblast vulnerability multiplier" 0.5
+				"override footstep sound set" 7
+				"cannot be backstabbed" 1
+				"gesture speed increase" 10
+			}
+			ItemAttributes
+			{
+				ItemName "The Iron Bomber"
+				"clip size upgrade atomic" 500 //add 500 iron bomber pipes
+				"fire rate bonus" 0.5 //Increased fire rate
+				"blast radius increased" 1.0 //Normal Blast Radius
+				"projectile speed decreased" 0.01 //Hardly Moves
+				"faster reload rate" 0.1 //Faster
+				"custom projectile model" "models/items/gift_festive.mdl"
+			}
+			Tag	bot_giant
+			Tag bot_sentrybuster
+		}
+		T_Summer_Trail_Buster // Drops Soccer Balls
+		{
+			Health 3000
+			Name "Soccer Buster"
+			Scale 2
+			Class Demoman
+			Skill Expert
+			WeaponRestrictions PrimaryOnly
+			ClassIcon sentry_buster_atomic
+			Tag	bot_giant
+			Tag bot_sentrybuster
+			Attributes MiniBoss
+			Attributes AlwaysFireWeapon
+			Attributes DisableDodge
+			Item "The Iron Bomber"
+			CharacterAttributes
+			{
+				"move speed bonus" 2
+				"damage force reduction" 0.5
+				"airblast vulnerability multiplier" 0.5
+				"override footstep sound set" 7
+				"cannot be backstabbed" 1
+				"gesture speed increase" 10
+			}
+			ItemAttributes
+			{
+				ItemName "The Iron Bomber"
+				"clip size upgrade atomic" 500 //add 500 iron bomber pipes
+				"fire rate bonus" 0.5 //1% fire rate
+				"blast radius increased" 1.0 //100% larger blast radius
+				"projectile speed decreased" 0.01 //Hardly Moves
+				"faster reload rate" 0.001 //0.1% reload rate
+				"custom projectile model" "models/player/items/scout/soccer_ball.mdl"
+			}
+		}
+	//Snipers
+		T_TFBot_Launch_Sniper //Launches Players
+		{
+			Class Sniper
+            Name "Impact Sniper"
+            Health 125
+            Attributes DisableDodge
+            ClassIcon sniper
+            Skill Expert
+            Item "Shooting Star"
+            Item "The Freedom Staff"
+            ItemAttributes
+            {
+                ItemName "Shooting Star"
+                "damage bonus" 0.25
+                "sniper charge per sec" 0
+                "faster reload rate" 0.8
+                "sniper no headshots" 1
+                "apply z velocity on damage" 500
+                "apply look velocity on damage" 750
+            }
+		}
+	}
+	
+	//Standard SmallBots
+	Templates
+	{
+	//Scout
+		T_Winter_Scout_Melee //Melee Only, 80% move speed
+		{
+			Class Scout
+			ClassIcon scout_bat
+
+			Skill Normal
+			//cosmetic
+			Name "Piqued Pixie"
+			Item "The Big Elfin Deal"
+			Item "The Candy Cane"
+			//functional
+			WeaponRestrictions MeleeOnly
+			CharacterAttributes
+			{
+				"move speed bonus" 0.8
+			}
+		}
+		T_Winter_Scout_Melee_Final //Melee Only, 80% move speed
+		{
+			Class Scout
+			ClassIcon scout_bat
+			
+			Health 1
+			Scale 0.7
+			Skill Normal
+			//cosmetic
+			Name "Merry Christmas :)"
+			Item "Ghostly Gibus"
+			Item "Upgradeable TF_WEAPON_BAT"
+			//functional
+			WeaponRestrictions MeleeOnly
+			Attributes AlwaysCrit
+			Attributes MiniBoss
+			Attributes UseBossHealthBar
+			ItemAttributes
+			{
+				ItemName "Upgradeable TF_WEAPON_BAT"
+				"fire rate bonus" 5
+				"damage bonus" 0.01
+				"apply look velocity on damage"	100
+				"apply z velocity on damage"	100
+				"damage causes airblast" 1	
+			}
+			CharacterAttributes
+			{
+				"move speed bonus" 0.2
+			}
+		}
+		T_Winter_Scout_Sandman_FastCharge //Fast Recharge, 60% move speed
+		{
+			Class Scout
+			Name "Sprinting Santa"
+			ClassIcon scout_stun
+			
+			Skill Hard
+			//cosmetic
+			Item "The Sack Fulla Smissmas"
+			Item "Towering Pile Of Presents"
+			//functional
+			Item "The Sandman"
+			WeaponRestrictions MeleeOnly
+			ItemAttributes
+			{
+				ItemName "The Sandman"
+				"effect bar recharge rate increased" 0.25
+				"move speed bonus" 0.80
+			}
+		}
+		T_Summer_Scout_Melee //Melee Only, 80% move speed
+		{
+			Class Scout
+			ClassIcon scout_bat
+
+			Skill Normal
+			//cosmetic
+			Name "Sunfury Scout"
+			Item "Summer Shades"
+			Item "Sun-on-a-Stick"
+			//functional
+			WeaponRestrictions MeleeOnly
+			CharacterAttributes
+			{
+				"move speed bonus" 0.8
+			}
+		}
+		T_Summer_Scout_Sandman_FastCharge //Fast Recharge, 60% move speed
+		{
+			Class Scout
+			Name "Brazen Baseballer"
+			ClassIcon scout_stun
+			
+			Skill Hard
+			//cosmetic
+			Item "The Sack Fulla Smissmas"
+			Item "The Macho Mann"
+			//functional
+			Item "The Sandman"
+			WeaponRestrictions MeleeOnly
+			ItemAttributes
+			{
+				ItemName "The Sandman"
+				"effect bar recharge rate increased" 0.25
+				"move speed bonus" 0.80
+			}
+		}
+		T_Summer_Scout_FAN //40% Damage, 60% move speed
+		{
+			Class Scout
+			ClassIcon scout_fan
+			Name "Force-A-Nature Scout"
+			
+			Skill Expert
+			//cosmetic
+			Item "The Fed-Fightin' Fedora"
+			Item "The Bolt Boy"
+			//functional
+			Item "The Force-a-Nature"
+			MaxVisionRange 500
+			ItemAttributes
+			{
+				ItemName "The Force-a-Nature"
+				"faster reload rate" 1.5 // 60% slower reload
+				"scattergun knockback mult" 1.5
+				"damage penalty" 0.40		// 40% damage
+				"move speed bonus" 0.6
+			}
+		}
+	//Soldier
+		T_Winter_Soldier_Direct //40% Damage
+		{
+			ClassIcon	soldier_directhit
+			Health	200
+			Name	"Direct Delivery"
+			Class	Soldier
+			Skill	Expert
+			//cosmetic
+			Item "The Holiday Headcase"
+			Item "Festive Flip-thwomps"
+			//functional
+			Item	"The Direct Hit"
+			ItemAttributes
+			{
+				ItemName "The Direct Hit"
+				"damage penalty" 0.4
+			}
+		}
+		T_Winter_Soldier_RocketShotgun //35% Damage, Black Box
+		{
+			Class Soldier
+			ClassIcon soldier_blackbox
+			Name "Black Box Bomber"
+			Skill Expert
+			//cosmetic
+			Item "The B.M.O.C."
+			//functional
+			WeaponRestrictions PrimaryOnly
+			Item "The Black Box"
+			ItemAttributes
+				{
+					ItemName "The Black Box"
+					"damage bonus" 0.35
+					"fire rate bonus" 1.5
+					"faster reload rate" 0.5
+					"blast radius increased" 1.25
+					"Projectile speed increased" 0.6
+					"projectile spread angle penalty" 2
+				}
+		}
+		T_Winter_Soldier_Melee_Concheror //Melee only, Conch
+		{
+			Class Soldier
+			Name "Crazy Charger"
+			Skill Normal
+			ClassIcon soldier_conch
+			//cosmetics
+			Item "The Kiss King"
+			Item "The Disciplinary Action"
+			//functional
+			Attributes SpawnWithFullCharge
+			Item "The Concheror"
+			WeaponRestrictions MeleeOnly
+			CharacterAttributes
+			{
+				"increase buff duration"	9.0
+				"move speed bonus" 0.5
+			}
+		}
+		T_Winter_Soldier_RocketPush //60% Damage
+		{
+			Class Soldier
+			ClassIcon soldier_libertylauncher
+			Name "Frigid Fiend"
+			Item "The Valley Forge"
+			Skill Expert
+			WeaponRestrictions PrimaryOnly
+			Item "The Liberty Launcher"
+			ItemAttributes
+			{
+				ItemName "The Liberty Launcher"
+				"damage causes airblast" 1
+				"damage bonus" .6
+				"fire rate bonus" 2.0
+				"clip size upgrade atomic" -3
+				"faster reload rate" 1.5
+				"Blast radius decreased" 1
+				"projectile spread angle penalty" 2
+				"projectile speed increased" 0.6 
+			}
+		}
+		T_Summer_Soldier_Jumping //60% Damage
+		{
+			Class Soldier
+			ClassIcon soldier_libertylauncher
+			Name "Skyrocket Soldier"
+			Item "The Valley Forge"
+			Skill Expert
+			Scale 1.3
+			WeaponRestrictions PrimaryOnly
+			Attributes AutoJump
+			AutoJumpMin 5
+			AutoJumpMax 5
+			Item "The Liberty Launcher"
+			ItemAttributes
+			{
+				ItemName "The Liberty Launcher"
+				"damage causes airblast" 0
+				"damage bonus" .6
+				"fire rate bonus" 2
+				"clip size upgrade atomic" -4
+				"faster reload rate" 0.5
+				"Blast radius decreased" 1
+				"projectile spread angle penalty" 2
+				"projectile speed increased" 0.6
+			}
+			CharacterAttributes
+			{
+				"increased jump height" 2
+				"cancel falling damage" 1
+			}
+		}
+		T_Summer_Soldier_Jumping_Final //60% Damage
+		{
+			Class Soldier
+			ClassIcon soldier_libertylauncher
+			Name "Skyrocket Soldier"
+			Item "The Toy Soldier"
+			Skill Expert
+			Scale 1.3
+			WeaponRestrictions PrimaryOnly
+			Attributes AutoJump
+			AutoJumpMin 5
+			AutoJumpMax 5
+			Item "The Liberty Launcher"
+			ItemAttributes
+			{
+				ItemName "The Liberty Launcher"
+				"damage bonus" .8
+				"fire rate bonus" 1.2
+				"clip size upgrade atomic" -3
+				"faster reload rate" 0.5
+				"Blast radius decreased" 1
+				"projectile spread angle penalty" 2
+				"projectile speed increased" 0.8
+			}
+			CharacterAttributes
+			{
+				"increased jump height" 2
+				"cancel falling damage" 1
+			}
+		}
+		T_Summer_Soldier_RocketShotgun //35% Damage, Black Box
+		{
+			Class Soldier
+			ClassIcon soldier_blackbox
+			Name "Black Box Bomber"
+			Skill Expert
+			//cosmetic
+			Item "The B.M.O.C."
+			//functional
+			WeaponRestrictions PrimaryOnly
+			Item "The Black Box"
+			ItemAttributes
+				{
+					ItemName "The Black Box"
+					"damage bonus" 0.35
+					"fire rate bonus" 1.5
+					"faster reload rate" 0.5
+					"blast radius increased" 1.25
+					"Projectile speed increased" 0.6
+					"projectile spread angle penalty" 2
+				}
+		}
+		T_Summer_Soldier_Melee_Concheror //Melee only, Conch
+		{
+			Class Soldier
+			Name "Crazy Charger"
+			Skill Normal
+			ClassIcon soldier_conch
+			//cosmetics
+			Item "The Kiss King"
+			Item "The Disciplinary Action"
+			//functional
+			Attributes SpawnWithFullCharge
+			Item "The Concheror"
+			WeaponRestrictions MeleeOnly
+			CharacterAttributes
+			{
+				"increase buff duration"	9.0
+				"move speed bonus" 0.5
+			}
+		}
+		T_Summer_Soldier_Direct //80% Damage
+		{
+			ClassIcon	soldier_directhit
+			Health	200
+			Name	"Fast Firework"
+			Class	Soldier
+			Skill	Expert
+			//cosmetic
+			Item "The Holiday Headcase"
+			//functional
+			Item	"The Direct Hit"
+			ItemAttributes
+			{
+				ItemName "The Direct Hit"
+				"damage penalty" 0.8
+			}
+		}
+	//Pyro
+		T_Winter_Pyro_AlwaysFire // Holds M1
+		{
+			Class Pyro
+			Name "Runaway Reindeer"
+			ClassIcon pyro
+
+			Item "Reindoonibeanie"
+			Item "EOTL_FURCAP"
+			Skill Hard		
+			WeaponRestrictions PrimaryOnly
+			Attributes AlwaysFireWeapon
+		}
+		T_Winter_Pyro_DragonFury //25% Damage
+		{
+			Name "Fury-ous Fiend"
+			Class Pyro
+			Skill Hard
+			ClassIcon pyro_dragon_fury
+			Item "The Dragon's Fury"
+			Item "The Rusty Reaper"
+			Item "Exquisite Rack"
+			Tag bomb_carrier
+			WeaponRestrictions PrimaryOnly
+			ItemAttributes
+			{
+				ItemName "The Dragon's Fury"
+				"damage penalty" 0.25
+			}
+			CharacterAttributes
+			{
+				"move speed bonus" 0.8
+			}
+		}
+		T_Winter_Pyro_Flaregun //25% Damage
+		{
+			Class Pyro
+			Name "Frenzied Flaregunner"
+			Skill Hard
+			ClassIcon pyro_flare
+			Item "Festive Flare Gun"
+			Item "The Winter Wonderland Wrap"
+			WeaponRestrictions SecondaryOnly
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName "Festive Flare Gun"
+				"damage penalty" 0.25
+				"fire rate bonus" 0.5
+			}
+		}
+		T_Winter_Pyro_Axtinguisher
+		{
+			Class Pyro
+			ClassIcon pyro_jug_axtinguisher
+			Name "Angry Axeman"
+			Skill Normal
+			//cosmetic
+			Item "Towering Pillar of Beanies"
+			//functional
+			WeaponRestrictions MeleeOnly
+			Item "Festive Axtinguisher"
+			ItemAttributes
+			{
+				ItemName "Festive Axtinguisher"
+				"move speed bonus" 0.8
+			}
+		}
+		T_Summer_Pyro_Gas
+		{
+			Name "Grouchy Gasser"
+			Class Pyro
+			ClassIcon pyro_gascann
+			Skill Easy
+			WeaponRestrictions SecondaryOnly
+			Item "The Gas Passer"
+			ItemAttributes
+			{
+				ItemName "The Gas Passer"
+				"item_meter_charge_rate" 2.0
+			}
+			CharacterAttributes
+			{
+				"move speed bonus" 0.8
+			}
+			Item "Old Guadalajara"
+		}
+		T_Summer_Pyro_Flaregun //25% Damage
+		{
+			Class Pyro
+			Name "Frenzied Flaregunner"
+			Skill Hard
+			ClassIcon pyro_flare
+			Item "Festive Flare Gun"
+			Item "Old Guadalajara"
+			WeaponRestrictions SecondaryOnly
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName "Festive Flare Gun"
+				"damage penalty" 0.25
+				"fire rate bonus" 0.5
+			}
+		}
+		T_Summer_Pyro_DragonFury //25% Damage
+		{
+			Name "Fury-ous Fiend"
+			Class Pyro
+			Skill Hard
+			ClassIcon pyro_dragon_fury
+			Item "The Dragon's Fury"
+			Item "The Rusty Reaper"
+			Item "Exquisite Rack"
+			Tag bomb_carrier
+			WeaponRestrictions PrimaryOnly
+			ItemAttributes
+			{
+				ItemName "The Dragon's Fury"
+				"damage penalty" 0.25
+			}
+			CharacterAttributes
+			{
+				"move speed bonus" 0.8
+			}
+		}
+		T_Summer_Pyro_AlwaysFire // Holds M1
+		{
+			Class Pyro
+			Name "Runaway Rooster"
+			ClassIcon pyro
+			Item "Feathered Fiend"
+			Item "Deity's Dress"
+			Skill Hard		
+			WeaponRestrictions PrimaryOnly
+			Attributes AlwaysFireWeapon
+		}
+		T_Summer_Pyro_Axtinguisher
+		{
+			Class Pyro
+			ClassIcon pyro_jug_axtinguisher
+			Name "Postal Pummeler"
+			Skill Normal
+			//cosmetic
+			Item "Messenger's Mail Bag"
+			Item "The Milkman"
+			//functional
+			WeaponRestrictions MeleeOnly
+			Item "The Postal Pummeler"
+			ItemAttributes
+			{
+				ItemName "The Postal Pummeler"
+				"move speed bonus" 0.8
+				"fire rate bonus" 0.5
+			}
+		}
+	//Demo
+		T_Winter_Demo_Burst //40% damage
+		{
+			Class Demoman
+			Name "Grouchy Grenadier"
+			Item "The Ornament Armament"
+			Item "The Ebenezer"
+			ClassIcon demo_burst
+			Skill Expert
+			WeaponRestrictions PrimaryOnly
+			Attributes HoldFireUntilFullReload
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_GRENADELAUNCHER"
+				"faster reload rate" 1.75
+				"fire rate bonus" 0.05
+				"clip size penalty" 0.5
+				"projectile spread angle penalty" 3
+				//"Projectile speed increased"	1.1
+				"damage penalty" 0.4
+			}
+		}
+		T_Winter_Demo_Burst_Gift //40% damage
+		{
+			Class Demoman
+			Name "Dangerous Delivery"
+			Item "The Ornament Armament"
+			Item "The Ebenezer"
+			ClassIcon demo_burst
+			Skill Expert
+			WeaponRestrictions PrimaryOnly
+			Attributes HoldFireUntilFullReload
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_GRENADELAUNCHER"
+				"faster reload rate" 1.75
+				"fire rate bonus" 0.05
+				"clip size penalty" 0.5
+				"projectile spread angle penalty" 3
+				//"Projectile speed increased"	1.1
+				"damage penalty" 0.4
+				"custom projectile model" "models/items/gift_festive.mdl"
+			}
+		}
+		T_Winter_Demoman_Knight
+		{
+			Class Demoman
+			Name "Cross Chopper"
+			ClassIcon demoknight	
+			Skill Hard
+			Item "The Chargin' Targe" //sadly can't find festive
+			Item "Festive Eyelander"
+			Item "Hungover Hero"
+			WeaponRestrictions MeleeOnly
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName "Festive Eyelander"
+				"critboost on kill" 3
+			}
+		}
+		T_Winter_Demoman_ChargeKnight
+		{
+			Class Demoman
+			Name "Crazy Claymore"
+			ClassIcon demoknight
+			Skill Hard
+			Item "The Tide Turner"
+			Item "Festive Eyelander"
+			Item "Bomb Beanie"
+			Item "EOTL_demopants"
+			Item "The Ornament Armament"
+			WeaponRestrictions MeleeOnly
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName "Festive Eyelander"
+				"critboost on kill" 3
+			}
+			ItemAttributes
+			{
+				ItemName "The Tide Turner"
+				"charge impact damage decreased" 0.25
+				"charge recharge rate increased" 3
+				"full charge turn control" 5
+				"attack not cancel charge" 1
+				"charge time increased" 3
+			}
+		}
+		T_Summer_Demo_Burst_Soccer //40% damage
+		{
+			Class Demoman
+			Name "Furious Footballer"
+			Item "The Macho Mann"
+			Item "Mann Co. Cap"
+			ClassIcon demo_burst
+			Skill Expert
+			WeaponRestrictions PrimaryOnly
+			Attributes HoldFireUntilFullReload
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_GRENADELAUNCHER"
+				"faster reload rate" 1.75
+				"fire rate bonus" 0.05
+				"clip size penalty" 0.5
+				"projectile spread angle penalty" 3
+				//"Projectile speed increased"	1.1
+				"damage penalty" 0.4
+				"custom projectile model" "models/player/items/scout/soccer_ball.mdl"
+			}
+		}
+	//Heavy
+		T_Winter_Heavy_Expert //Minigun
+		{
+			Class Heavy
+			ClassIcon heavy
+			Item "Officer's Ushanka"
+			Name "Malicious Minigunner"
+			Skill Expert
+			MaxVisionRange 1000
+		}
+		T_Winter_Heavy_Gift //Push 75%
+		{
+			ClassIcon	soldier_barrage
+			Health	300
+			Name	"Rapid Rocketeer"
+			Class	HeavyWeapons
+			Skill	Expert
+			Item	"Iron Curtain"
+			Item	"The U-Clank-a"
+			Item	"The Titanium Towel"
+			MaxVisionRange 1200
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName	"Iron Curtain"
+				"apply look velocity on damage"	50
+				"apply z velocity on damage"	50
+				"override projectile type" 2
+				"custom projectile model" "models/items/gift_festive.mdl"
+				"damage bonus" 2.0
+				"fire rate bonus" 5.0
+			}
+		}
+		T_Winter_Heavyweapons_Shotgun //33% Damage
+		{
+			Class Heavyweapons
+			ClassIcon heavy_shotgun
+			Name "Shotgun Swine"
+			Item "The Head Prize"
+			Item "Loaf Loafers"
+			Skill Hard
+			MaxVisionRange 800
+			WeaponRestrictions SecondaryOnly
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_SHOTGUN_HWG"
+				"faster reload rate" 0.1
+				"fire rate bonus" 2.5
+				"bullets per shot bonus" 3
+				"damage bonus" 0.33
+			}
+		}
+		T_Winter_Heavy_Mittens // 250HP
+		{
+			Class heavyweapons
+			Name "Sullen Santa"
+			ClassIcon heavy_mittens
+			Skill Expert
+			Health 250
+			Item "The Holiday Punch"
+			Item "The B.M.O.C."
+			Item "#TF_AllFather_Style1"
+			Item "The Gift Bringer"
+			WeaponRestrictions MeleeOnly
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName "The Holiday Punch"
+				"fire rate bonus" 0.6
+				"damage bonus" 1.0
+
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	1
+				"damage force reduction" 0.3
+				"airblast vulnerability multiplier" 0.3
+			}
+		}
+		T_Winter_Running_Heavy // 250HP
+		{
+			Class heavyweapons
+			Name "Swift Santa"
+			ClassIcon heavy_gru
+			Skill Expert
+			Health 450
+			Item "Gloves of Running Urgently MvM"
+			Item "The B.M.O.C."
+			Item "#TF_AllFather_Style1"
+			Item "The Gift Bringer"
+			WeaponRestrictions MeleeOnly
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName "Gloves of Running Urgently MvM"
+				"fire rate bonus" 0.6
+				"damage bonus" 1.0
+
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	1
+				"damage force reduction" 0.3
+				"airblast vulnerability multiplier" 0.3
+			}
+		}
+		T_Summer_Heavyweapons_Shotgun //33% Damage
+		{
+			Class Heavyweapons
+			ClassIcon heavy_shotgun
+			Name "Shotgun Swine"
+			Item "The Head Prize"
+			Item "Loaf Loafers"
+			Skill Hard
+			MaxVisionRange 800
+			WeaponRestrictions SecondaryOnly
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_SHOTGUN_HWG"
+				"faster reload rate" 0.1
+				"fire rate bonus" 2.5
+				"damage bonus" 0.33
+			}
+		}
+		T_Summer_Boxing_Heavy // 250HP
+		{
+			Class heavyweapons
+			Name "Beachside Brawler"
+			ClassIcon heavy_champ
+			Skill Expert
+			Health 250
+			Item "The Killing Gloves of Boxing"
+			Item "The Macho Mann"
+			WeaponRestrictions MeleeOnly
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName "The Killing Gloves of Boxing"
+				"fire rate bonus" 0.6
+				"damage bonus" 1.0
+
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	1
+				"damage force reduction" 0.3
+				"airblast vulnerability multiplier" 0.3
+			}
+		}
+		T_Summer_Heavy_Rockets
+		{
+			ClassIcon	soldier_barrage
+			Health	300
+			Name	"Rapid Rocketeer"
+			Class	HeavyWeapons
+			Skill	Expert
+			Item	"Iron Curtain"
+			Item	"The U-Clank-a"
+			Item	"The Titanium Towel"
+			MaxVisionRange 1200
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName	"Iron Curtain"
+				"apply look velocity on damage"	50
+				"apply z velocity on damage"	50
+				"override projectile type" 2
+				"damage bonus" 1
+				"fire rate bonus" 4.0
+			}
+		}
+		T_Summer_HeavySteel {
+			Name "Braced Brawler"
+			Class Heavyweapons
+			ClassIcon heavy_steelfist
+			Skill Hard
+			Health 600
+			Scale 1.25
+			WeaponRestrictions MeleeOnly
+			Item "Fists of Steel"
+			Item "The Gridiron Guardian"
+		}
+	//Medic
+		T_Winter_Medic_QuickUber
+		{
+			Class Medic
+			Name "Displeased Doctor"
+			Item "Elf Care Provider"
+			ClassIcon medic_uber
+			Skill Normal
+			Attributes SpawnWithFullCharge
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_MEDIGUN"
+				"ubercharge rate bonus" 5
+				"uber duration bonus" -3
+			}
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_SYRINGEGUN_MEDIC"
+				"damage penalty" 0.1
+				"active health degen" -10
+			}
+			CharacterAttributes
+			{
+				"heal rate bonus" 0.1
+			}
+		}
+		T_Winter_Medic_Superheal
+        {
+            Class Medic
+            Skill Expert
+            Item "The Quick-Fix"
+            Name "Hasty Healer"
+            ClassIcon medic
+            
+            Item "Halogen Head Lamp"
+            Attributes SpawnWithFullCharge
+            
+            ItemAttributes
+            {
+                ItemName "The Quick-Fix"
+                "heal rate bonus" 100
+                "ubercharge rate bonus" 200
+                "uber duration bonus" 200
+            }
+            ItemAttributes
+			{
+				ItemName "TF_WEAPON_SYRINGEGUN_MEDIC"
+				"damage penalty" 0.1
+				"active health degen" -10
+			}
+            CharacterAttributes
+            {
+                "bot medic uber health threshold" 500
+                "health from healers increased" 0
+            }
+        } 
+		T_Summer_Medic_QuickUber
+		{
+			Class Medic
+			Name "Sunburn Surgeon"
+			Item "The Macho Mann"
+			ClassIcon medic_uber
+			Skill Normal
+			Attributes SpawnWithFullCharge
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_MEDIGUN"
+				"ubercharge rate bonus" 5
+				"uber duration bonus" -3
+			}
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_SYRINGEGUN_MEDIC"
+				"damage penalty" 0.1
+				"active health degen" -10
+			}
+			CharacterAttributes
+			{
+				"heal rate bonus" 0.1
+			}
+		}
+		T_Summer_Medic_Superheal
+        {
+            Class Medic
+            Skill Expert
+            Item "The Quick-Fix"
+            Name "Hasty Healer"
+            ClassIcon medic
+            
+            Item "Halogen Head Lamp"
+            Attributes SpawnWithFullCharge
+            
+            ItemAttributes
+            {
+                ItemName "The Quick-Fix"
+                "heal rate bonus" 100
+                "ubercharge rate bonus" 200
+                "uber duration bonus" 200
+            }
+            ItemAttributes
+			{
+				ItemName "TF_WEAPON_SYRINGEGUN_MEDIC"
+				"damage penalty" 0.1
+				"active health degen" -10
+			}
+            CharacterAttributes
+            {
+                "bot medic uber health threshold" 500
+                "health from healers increased" 0
+            }
+        } 
+	//Sniper
+		T_Winter_Sniper_Huntsman //50% Damage
+		{
+			Class Sniper
+			Name "Blood-curdling Bowman"
+			Skill Hard
+			ClassIcon sniper_bow
+			WeaponRestrictions PrimaryOnly
+			Item "Festive Huntsman"
+			Item "The Smissmass Sorcerer"
+			Tag bomb_carrier
+
+			ItemAttributes
+			{
+				ItemName "Festive Huntsman"
+				"damage bonus" 0.5
+			}
+		}
+		T_Summer_Sniper_Rifle_Burst
+        {
+            Name "Fireworks Sniper"
+            Class Sniper
+			ClassIcon sniper
+            Skill Hard
+            Health 250
+			Scale 1.2
+            Item "The AWPer Hand"
+            Item "Soldier Drill Hat"
+            Item "The Triggerman's Tacticals"
+            Attributes AlwaysFireWeapon
+            WeaponRestrictions PrimaryOnly
+            MaxVisionRange 1500
+
+            ItemAttributes
+            {
+                ItemName "The AWPer Hand"
+                "damage penalty" 0.1
+                "faster reload rate" 0.03
+                "sniper fires tracer hidden" 1
+                "lunchbox adds minicrits" 3
+            }
+
+            ItemAttributes
+            {
+                ItemName TF_WEAPON_SMG
+                is_passive_weapon 1
+                "override projectile type" 27
+                "clip size penalty" 0.1
+                "reload time increased" 3
+                "gesture speed increase" 2
+                "hand scale" 0.75
+                "head scale" 0.7
+            }
+
+            CharacterAttributes
+            {
+                "move speed bonus" 0.7
+                "damage force reduction" 0.35
+                "airblast vulnerability multiplier" 0.35
+                "airblast vertical vulnerability multiplier" 0.5
+                "override footstep sound set" 7
+            }
+        }
+		T_Summer_Sniper_Huntsman //50% Damage
+		{
+			Class Sniper
+			Name "Blood-curdling Bowman"
+			Skill Hard
+			ClassIcon sniper_bow
+			WeaponRestrictions PrimaryOnly
+			Item "Festive Huntsman"
+			Item "The Smissmass Sorcerer"
+			Tag bomb_carrier
+
+			ItemAttributes
+			{
+				ItemName "Festive Huntsman"
+				"damage bonus" 0.5
+			}
+		}
+	}
+	//Giants
+	Templates
+	{
+	//Scouts
+		T_Winter_Giant_Scout_Boss_Agnus
+		{
+			Name "Agitated Agnus"
+			Class Scout
+			Skill Expert
+			Health 5000
+			Scale 2.0
+			ClassIcon scout
+			Item "The Battalion's Backup"
+			Item "Bumble Beenie"
+			Item "Candy Cantlers"
+			Item "The Polar Pal"
+			Item "The Gift Bringer"
+			Attributes MiniBoss
+			Attributes UseBossHealthBar
+			Attributes AutoJump
+			AutoJumpMin 5
+			AutoJumpMax 5
+			Tag bot_giant
+			WeaponRestrictions PrimaryOnly
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_SCATTERGUN"
+				"damage bonus" 1.25
+				"faster reload rate" 0.5
+				"fire rate bonus" 2.5
+				"bullets per shot bonus" 3
+			}
+			ItemAttributes
+			{
+				ItemName "Bumble Beenie"
+				"attach particle effect" 87
+			}
+			CharacterAttributes
+			{
+				"airblast vertical vulnerability multiplier" 0.5
+				"airblast vulnerability multiplier" 0.1
+				"damage force reduction" 0.8
+				"health regen" 5
+				"move speed bonus" 0.6
+				"override footstep sound set" 3
+			}
+		}
+		T_Winter_Giant_Scout_Baseball  //Melee Scout, 1500 HP | 75% Move
+		{
+			Class Scout
+			Name "Expeditious Elf"
+			ClassIcon scout_stun_armored
+			Skill Expert
+			Health 1500
+			Item "Jolly Jingler"
+			Item "The Bootie Time"
+			Item "The Sandman"
+			WeaponRestrictions MeleeOnly
+			Attributes MiniBoss
+			Tag bot_giant
+			ItemAttributes
+			{
+				ItemName "The Sandman"
+				"effect bar recharge rate increased" 0.05
+			}
+			CharacterAttributes
+			{
+				"damage force reduction" 0.7
+				"airblast vulnerability multiplier" 0.7
+				"override footstep sound set" 5
+				"move speed penalty" 0.75
+			}
+		}
+		T_Summer_Giant_Scout_Baseball  //Melee Scout, 1500 HP | 75% Move
+		{
+			Class Scout
+			Name "Expeditious Elf"
+			ClassIcon scout_stun_armored
+			Skill Expert
+			Health 1500
+			Item "The Bottle Cap"
+			Item "Towering Pillar of Summer Shades"
+			Item "The Sandman"
+			WeaponRestrictions MeleeOnly
+			Attributes MiniBoss
+			Tag bot_giant
+			ItemAttributes
+			{
+				ItemName "The Sandman"
+				"effect bar recharge rate increased" 0.05
+			}
+			CharacterAttributes
+			{
+				"damage force reduction" 0.7
+				"airblast vulnerability multiplier" 0.7
+				"override footstep sound set" 5
+				"move speed penalty" 0.75
+			}
+		}
+		T_Summer_Giant_Scout_FAN // 1200 HP | 80% Move | 45% Damage
+		{
+			Class Scout
+			Name "Force-a-Nature Super Scout"
+			ClassIcon scout_fan_giant
+			Health 1200	
+			
+			Item "Batter's Helmet"
+			Item "The Force-a-Nature"
+			Skill Expert
+			Tag bot_giant
+			WeaponRestrictions PrimaryOnly
+			Attributes MiniBoss
+			Attributes HoldFireUntilFullReload
+			MaxVisionRange 1200
+			ItemAttributes
+			{
+				ItemName "The Force-a-Nature"
+				"bullets per shot bonus" 2
+				"fire rate bonus" 0.5
+				"faster reload rate" 1.7 // 70% slower reload
+				"scattergun knockback mult" 6
+				"damage bonus" 0.45		// 55% damage reduction
+				"weapon spread bonus" 0.4				
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.8
+				"damage force reduction" 0.7
+				"airblast vulnerability multiplier" 0.7
+				"override footstep sound set" 5
+			}
+		}	
+	//Soldier
+		T_Winter_Giant_Soldier_RocketShotgun // Black Box, 1500 HP | 50% Move | 45% Damage
+		{
+			Class Soldier
+			Name "Ghost of Christmas Past"
+			ClassIcon soldier_blackbox_giant
+			Health 2500
+			
+			Item "Festive Black Box"
+			Item "Loyalty Reward"
+			Item "Festive Fascinator"
+			Skill Expert
+			Tag bot_giant
+			WeaponRestrictions PrimaryOnly
+			Attributes HoldFireUntilFullReload
+			Attributes MiniBoss
+			ItemAttributes
+			{
+				ItemName "Festive Black Box"
+				"damage bonus" 0.45
+				"fire rate bonus" 0.001
+				"clip size upgrade atomic" 0
+				"faster reload rate" 1.6
+				"blast radius increased" 1.25
+				//"Projectile speed increased" 0.4
+				"projectile spread angle penalty" 4
+				"heal on hit for rapidfire" 500
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.5
+				"damage force reduction" 0.4
+				"airblast vulnerability multiplier" 0.4
+				"override footstep sound set" 3
+				"Projectile speed decreased" 0.9
+			}
+		}
+		T_Winter_Giant_Soldier //Rocket Soldier, 1000 HP | 50% Move
+		{
+			Class Soldier
+			Name "Ruffled Rocketman"
+			Item "A Rather Festive Tree"
+			Item "Festive Rocket Launcher 2011"
+			Item "Exquisite Rack"
+			ClassIcon soldier_giant
+			Skill Expert
+			Health 1000
+			WeaponRestrictions PrimaryOnly
+			Attributes HoldFireUntilFullReload
+			Attributes MiniBoss
+			Tag bot_giant
+			CharacterAttributes
+			{
+				"move speed bonus"	0.5
+				"damage force reduction" 0.4
+				"airblast vulnerability multiplier" 0.4
+				"override footstep sound set" 3
+			}
+			ItemAttributes
+			{
+				ItemName "Festive Rocket Launcher 2011"
+				"damage bonus" 0.60
+			}
+		}
+		T_Winter_Giant_Soldier_Spammer // 1500 HP | 50% Move
+		{
+			Class Soldier
+			Name "Bottomless Bazooka"
+			Item "Festive Rocket Launcher 2011"
+			Item "The Gift Bringer"
+			Item "The Toy Soldier"
+			ClassIcon soldier_spammer
+			Health 2500
+			Skill Expert
+			WeaponRestrictions PrimaryOnly
+			Tag bot_giant
+			Attributes MiniBoss
+			ItemAttributes
+			{
+				ItemName "Festive Rocket Launcher 2011"
+				"faster reload rate" -0.8
+				"fire rate bonus" 0.5
+				"damage bonus" 0.60
+
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.5
+				"damage force reduction" 0.4
+				"airblast vulnerability multiplier" 0.4
+				"override footstep sound set" 3
+				"Projectile speed increased" 0.65
+			}
+		}
+		T_Summer_Giant_Soldier_Spammer_Jumping // 3000 HP | 50% Move
+		{
+			Class Soldier
+			Name "Skyrocket Soldier"
+			Item "Festive Rocket Launcher 2011"
+			Item "The Gift Bringer"
+			Item "The Toy Soldier"
+			ClassIcon soldier_spammer
+			Health 3000
+			Skill Expert
+			WeaponRestrictions PrimaryOnly
+			Tag bot_giant
+			Attributes MiniBoss
+			Attributes AutoJump
+			AutoJumpMin 8
+			AutoJumpMax 8
+			ItemAttributes
+			{
+				ItemName "Festive Rocket Launcher 2011"
+				"faster reload rate" 2
+				"fire rate bonus" 0.8
+				"damage bonus" 0.60
+				"clip size upgrade atomic" -3
+
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.5
+				"damage force reduction" 0.4
+				"airblast vulnerability multiplier" 0.4
+				"override footstep sound set" 3
+				"Projectile speed increased" 0.65
+				"increased jump height" 3
+				"cancel falling damage"    1
+			}
+		}
+		T_Summer_Giant_Soldier_Spammer_Jumping_Boss // 7500 HP | 50% Move
+		{
+			Class Soldier
+			Name "Skyrocket Soldier"
+			Item "Festive Rocket Launcher 2011"
+			Item "The Gift Bringer"
+			Item "The Toy Soldier"
+			ClassIcon soldier_spammer
+			Health 7500
+			Skill Expert
+			WeaponRestrictions PrimaryOnly
+			Tag bot_giant
+			Attributes MiniBoss
+			Attributes AutoJump
+			Attributes UseBossHealthBar
+			AutoJumpMin 8
+			AutoJumpMax 8
+			ItemAttributes
+			{
+				ItemName "Festive Rocket Launcher 2011"
+				"faster reload rate" -0.8
+				"fire rate bonus" 0.5
+				"damage bonus" 0.60
+				"clip size upgrade atomic" -3
+
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.5
+				"damage force reduction" 0.4
+				"airblast vulnerability multiplier" 0.4
+				"override footstep sound set" 3
+				"Projectile speed increased" 0.65
+				"increased jump height" 3
+				"cancel falling damage"    1
+			}
+		}
+		T_Winter_Giant_Soldier_Boss // Chief Soldier, 125% Damage | 5000 HP | 40% Move
+		{
+			Name "Ghost of Christmas Present"
+			Class Soldier
+			Skill Expert
+			Health 5000
+			Scale 2.0
+			ClassIcon soldier_backup_giant
+			Item "Fancy Dress Uniform"
+			Item "Full Metal Drill Hat"
+			Item "Upgradeable TF_Weapon_RocketLauncher"
+			Item "The Battalion's Backup"
+			Attributes HoldFireUntilFullReload
+			Attributes SpawnWithFullCharge
+			Attributes MiniBoss
+			Attributes UseBossHealthBar
+			Tag bot_giant
+			WeaponRestrictions PrimaryOnly
+			ItemAttributes
+			{
+				ItemName "Upgradeable TF_Weapon_RocketLauncher"
+				"item style override" 1
+				"loot rarity" 1
+				"is australium item" 1
+				"blast radius increased" 0.8
+				"damage bonus" 1.25
+				"faster reload rate" -0.8
+				"fire rate bonus" 0.5
+				"projectile speed decreased" 0.2 
+				"clip size upgrade atomic" 50.0
+			}
+			ItemAttributes
+			{
+				ItemName "Full Metal Drill Hat"
+				"attach particle effect" 10
+			}
+			CharacterAttributes
+			{
+				"airblast vertical vulnerability multiplier" 0.5
+				"airblast vulnerability multiplier" 0.1
+				"damage force reduction" 0.8
+				"health regen" 5
+				"increase buff duration" 2.0
+				"move speed bonus" 0.4
+				"override footstep sound set" 3
+			}
+		}
+		T_Winter_Giant_Soldier_Boss_Silas
+		{
+			Name "Sinister Silas"
+			Class Soldier
+			Skill Expert
+			Health 7500
+			Scale 2.0
+			ClassIcon soldier_backup_giant
+			Item "Upgradeable TF_Weapon_RocketLauncher"
+			Item "The Battalion's Backup"
+			Item "The Tundra Top"
+			Item "Antarctic Parka"
+			Item "The Polar Pal"
+			Attributes HoldFireUntilFullReload
+			Attributes SpawnWithFullCharge
+			Attributes MiniBoss
+			Attributes UseBossHealthBar
+			Tag bot_giant
+			WeaponRestrictions PrimaryOnly
+			ItemAttributes
+			{
+				ItemName "Upgradeable TF_Weapon_RocketLauncher"
+				"blast radius increased" 0.8
+				"damage bonus" 1.25
+				"faster reload rate" -0.8
+				"fire rate bonus" 0.5
+				"projectile speed decreased" 0.6
+				"clip size upgrade atomic" 50.0
+			}
+			ItemAttributes
+			{
+				ItemName "The Tundra Top"
+				"attach particle effect" 87
+			}
+			CharacterAttributes
+			{
+				"airblast vertical vulnerability multiplier" 0.5
+				"airblast vulnerability multiplier" 0.1
+				"damage force reduction" 0.8
+				"health regen" 5
+				"increase buff duration" 2.0
+				"move speed bonus" 0.4
+				"override footstep sound set" 3
+			}
+		}
+		T_Summer_Giant_Soldier_RocketShotgun // Black Box, 1500 HP | 50% Move | 45% Damage
+		{
+			Class Soldier
+			Name "Box Bomber"
+			ClassIcon soldier_blackbox_giant
+			Health 2500
+			
+			Item "Festive Black Box"
+			Item "Loyalty Reward"
+			Item "Festive Fascinator"
+			Skill Expert
+			Tag bot_giant
+			WeaponRestrictions PrimaryOnly
+			Attributes HoldFireUntilFullReload
+			Attributes MiniBoss
+			ItemAttributes
+			{
+				ItemName "Festive Black Box"
+				"damage bonus" 0.45
+				"fire rate bonus" 0.001
+				"clip size upgrade atomic" 0
+				"faster reload rate" 1.6
+				"blast radius increased" 1.25
+				//"Projectile speed increased" 0.4
+				"projectile spread angle penalty" 4
+				"heal on hit for rapidfire" 500
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.5
+				"damage force reduction" 0.4
+				"airblast vulnerability multiplier" 0.4
+				"override footstep sound set" 3
+				"Projectile speed decreased" 0.9
+			}
+		}
+		T_Summer_Giant_Soldier_Boss // Chief Soldier, 125% Damage | 5000 HP | 40% Move
+		{
+			Name "Airborne Admiral"
+			Class Soldier
+			Skill Expert
+			Health 5000
+			Scale 2.0
+			ClassIcon soldier_backup_giant
+			Item "Fancy Dress Uniform"
+			Item "Full Metal Drill Hat"
+			Item "Upgradeable TF_Weapon_RocketLauncher"
+			Item "The Battalion's Backup"
+			Attributes HoldFireUntilFullReload
+			Attributes SpawnWithFullCharge
+			Attributes MiniBoss
+			Attributes UseBossHealthBar
+			Attributes AutoJump
+			AutoJumpMin 8
+			AutoJumpMax 10
+			Tag bot_giant
+			WeaponRestrictions PrimaryOnly
+			ItemAttributes
+			{
+				ItemName "Upgradeable TF_Weapon_RocketLauncher"
+				"item style override" 1
+				"loot rarity" 1
+				"is australium item" 1
+				"blast radius increased" 0.8
+				"damage bonus" 1.25
+				"faster reload rate" -0.8
+				"fire rate bonus" 0.5
+				"projectile speed decreased" 0.6
+				"clip size upgrade atomic" 50.0
+			}
+			ItemAttributes
+			{
+				ItemName "Full Metal Drill Hat"
+				"attach particle effect" 10
+			}
+			CharacterAttributes
+			{
+				"airblast vertical vulnerability multiplier" 0.5
+				"airblast vulnerability multiplier" 0.1
+				"damage force reduction" 0.8
+				"health regen" 5
+				"increase buff duration" 2.0
+				"move speed bonus" 0.4
+				"override footstep sound set" 3
+				"cancel falling damage"    1
+				"increased jump height" 500
+			}
+		}
+	//Pyro
+		T_Winter_Giant_Pyro_Flare_Spammer_ScorchShot // Scorch Shot, 1200 HP | 40% Move
+		{
+			Class Pyro
+			Name "Sinful Scorcher"
+			ClassIcon pyro_scorchshot_giant	
+			Skill Expert
+			Health 1200
+			Item "The Scorch Shot"
+			Item "The Waxy Wayfinder"
+			WeaponRestrictions SecondaryOnly
+			Attributes MiniBoss
+			ItemAttributes
+			{
+				ItemName "The Scorch Shot"
+				"fire rate bonus" 0.5
+				"damage causes airblast" 1
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.40
+				"damage force reduction" 0.6
+				"airblast vulnerability multiplier" 0.6
+				"override footstep sound set" 6
+			}
+		}
+		T_Summer_Giant_Pyro_DragonFury //50% Damage, 60% move speed
+		{
+			Name "Fury-ous Fiend"
+			Health 2000
+			Class Pyro
+			Skill Hard
+			ClassIcon pyro_dragon_fury
+			Item "The Dragon's Fury"
+			Item "The Rusty Reaper"
+			Item "Exquisite Rack"
+			Tag bomb_carrier
+			WeaponRestrictions PrimaryOnly
+			Attributes MiniBoss
+			ItemAttributes
+			{
+				ItemName "The Dragon's Fury"
+				"damage penalty" 0.25
+			}
+			CharacterAttributes
+			{
+				"move speed bonus" 0.6
+			}
+		}
+		T_Summer_Giant_Pyro_AlwaysFire // Holds M1
+		{
+			Class Pyro
+			Name "Runaway Rooster"
+			ClassIcon pyro
+			Item "Feathered Fiend"
+			Item "Deity's Dress"
+			Skill Hard		
+			Health 2000
+			WeaponRestrictions PrimaryOnly
+			Attributes AlwaysFireWeapon
+			Attributes MiniBoss
+			CharacterAttributes
+			{
+				"move speed bonus"	0.40
+				"damage force reduction" 0.6
+				"airblast vulnerability multiplier" 0.6
+				"override footstep sound set" 6
+			}
+		}
+		T_Summer_Giant_Pyro_Gas
+		{
+			Name "Giant Gasser"
+			Class Pyro
+			ClassIcon pyro_gascann
+			Skill Easy
+			Health 1500
+			WeaponRestrictions SecondaryOnly
+			Attributes MiniBoss
+			Item "The Gas Passer"
+			ItemAttributes
+			{
+				ItemName "The Gas Passer"
+				"item_meter_charge_rate" 2.5
+			}
+			CharacterAttributes
+			{
+				"move speed bonus" 0.5
+				"damage force reduction" 0.6
+				"airblast vulnerability multiplier" 0.6
+				"override footstep sound set" 6
+			}
+			Item "Old Guadalajara"
+		}
+		T_Summer_Giant_Pyro_Flare_Spammer_ScorchShot // Scorch Shot, 1200 HP | 40% Move
+		{
+			Class Pyro
+			Name "Sinful Scorcher"
+			ClassIcon pyro_scorchshot_giant	
+			Skill Expert
+			Health 1200
+			Item "The Scorch Shot"
+			Item "The Waxy Wayfinder"
+			WeaponRestrictions SecondaryOnly
+			Attributes MiniBoss
+			ItemAttributes
+			{
+				ItemName "The Scorch Shot"
+				"fire rate bonus" 0.5
+				"damage causes airblast" 1
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.40
+				"damage force reduction" 0.6
+				"airblast vulnerability multiplier" 0.6
+				"override footstep sound set" 6
+			}
+		}
+		T_Summer_Giant_Pyro_AlwaysFire // Holds M1
+		{
+			Class Pyro
+			Name "Runaway Rooster"
+			ClassIcon pyro
+			Item "Feathered Fiend"
+			Item "Deity's Dress"
+			Skill Hard		
+			Health 1200
+			WeaponRestrictions PrimaryOnly
+			Attributes AlwaysFireWeapon
+			CharacterAttributes
+			{
+				"move speed bonus"	0.40
+				"damage force reduction" 0.6
+				"airblast vulnerability multiplier" 0.6
+				"override footstep sound set" 6
+			}
+		}
+	//Demo
+		T_Winter_Giant_Demo_Burst // 1200 HP | 45% Move
+		{ 
+			Class Demoman
+			Name "Giant Burst Fire Demo"
+			ClassIcon demo_burst_giant
+			Health 1200
+			Skill Expert
+			WeaponRestrictions PrimaryOnly
+			Tag bomb_carrier
+			Attributes MiniBoss
+			Attributes HoldFireUntilFullReload
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_GRENADELAUNCHER"
+				"faster reload rate" 0.65 //35% faster reload
+				"fire rate bonus" 0.1
+				"clip size upgrade atomic" 7.0
+				"projectile spread angle penalty" 5
+				"Projectile speed increased"	1.1
+			}
+
+			CharacterAttributes
+			{
+				"move speed bonus"	0.45
+				"damage force reduction" 0.4
+				"airblast vulnerability multiplier" 0.4
+				"override footstep sound set" 4
+			}
+		}
+		T_Winter_Giant_Demo_Burst_Gift // 1200 HP | 45% Move
+		{ 
+			Class Demoman
+			Name "Dire Delivery"
+			ClassIcon demo_burst_giant
+			Health 2300
+			Skill Expert
+			WeaponRestrictions PrimaryOnly
+			Tag bomb_carrier
+			Attributes MiniBoss
+			Attributes HoldFireUntilFullReload
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_GRENADELAUNCHER"
+				"faster reload rate" 0.65 //35% faster reload
+				"fire rate bonus" 0.1
+				"clip size upgrade atomic" 7.0
+				"projectile spread angle penalty" 5
+				"Projectile speed increased"	0.8
+				"custom projectile model" "models/items/gift_festive.mdl"
+			}
+
+			CharacterAttributes
+			{
+				"move speed bonus"	0.45
+				"damage force reduction" 0.4
+				"airblast vulnerability multiplier" 0.4
+				"override footstep sound set" 4
+			}
+		}	
+		T_Winter_Giant_Demo_Boss_Gift // 12500 HP | 45% Move
+		{ 
+			Class Demoman
+			Name "Shady Santa"
+			ClassIcon demo_giant
+			Health 12500
+			Skill Expert
+			WeaponRestrictions PrimaryOnly
+			Tag bomb_carrier
+			Attributes MiniBoss
+			Attributes UseBossHealthBar
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_GRENADELAUNCHER"
+				"faster reload rate" 5 //500% slower reload
+				"fire rate bonus" 0.1
+				"clip size upgrade atomic" -3
+				"Projectile speed increased"	0.5
+				"blast radius increased" 5.0 //500% larger radius
+				"use large smoke explosion" 1
+				"fuse bonus"    1.8
+				"custom projectile model" "models/items/gift_festive.mdl"
+			}
+
+			CharacterAttributes
+			{
+				"move speed bonus"	0.45
+				"damage force reduction" 0.4
+				"airblast vulnerability multiplier" 0.4
+				"override footstep sound set" 4
+			}
+		}	
+		T_Summer_Giant_Demo_Burst_Beach // 1200 HP | 45% Move
+		{ 
+			Class Demoman
+			Name "Dire Delivery"
+			ClassIcon demo_burst_giant
+			Health 2300
+			Skill Expert
+			WeaponRestrictions PrimaryOnly
+			Tag bomb_carrier
+			Attributes MiniBoss
+			Attributes HoldFireUntilFullReload
+			ItemAttributes
+			{
+				ItemName "TF_WEAPON_GRENADELAUNCHER"
+				"faster reload rate" 0.65 //35% faster reload
+				"fire rate bonus" 0.1
+				"clip size upgrade atomic" 7.0
+				"projectile spread angle penalty" 5
+				"Projectile speed increased"	0.8
+				"custom projectile model" "models/props_gameplay/ball001.mdl"
+			}
+
+			CharacterAttributes
+			{
+				"move speed bonus"	0.45
+				"damage force reduction" 0.4
+				"airblast vulnerability multiplier" 0.4
+				"override footstep sound set" 4
+			}
+		}
+		T_Summer_Giant_DemoKnight
+		{	
+			Class Demoman
+			Name "Crazy Claymore"
+			ClassIcon demoknight_giant
+			Health 1000
+			Scale 1.5
+			Skill Hard
+			Item "The Tide Turner"
+			Item "Nessie's Nine Iron"
+			Item "The Allbrero"
+			Item "Six Pack Abs"
+			Item "Seeing Double"
+			WeaponRestrictions MeleeOnly
+			Attributes MiniBoss
+			Tag bomb_carrier
+			ItemAttributes
+			{
+				ItemName "Nessie's Nine Iron"
+				"critboost on kill" 3
+			}
+			ItemAttributes
+			{
+				ItemName "The Tide Turner"
+				"charge impact damage decreased" 0.25
+				"charge recharge rate increased" 2
+				"full charge turn control" 2
+				"attack not cancel charge" 1
+				"charge time increased" 1.5
+			}
+			CharacterAttributes
+			{
+				"move speed bonus" 0.6
+			}
+		}
+	//Heavy
+		T_Winter_Giant_Heavyweapons_Heater // Huo-Long, 2000 HP | 50% Move
+		{
+			Class Heavyweapons
+			ClassIcon heavy_heater_giant
+			Skill Expert
+			Health 2000
+			WeaponRestrictions PrimaryOnly
+			Name "Yeti Weapons Guy"
+			Item "The Huo Long Heatmaker"
+			//Item "Yeti_Arms"
+			Item "BedBug Protection"
+			Item "Yeti_Legs"
+			Item "Yeti_Head"
+			Attributes MiniBoss
+			Tag bomb_carrier
+			Tag bot_giant
+			ItemAttributes
+			{
+				ItemName "The Huo Long Heatmaker"
+				"damage bonus"	1
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.5
+				"damage force reduction" 0.3
+				"airblast vulnerability multiplier" 0.3
+				"override footstep sound set" 2
+			}
+		}
+		T_Summer_Giant_Heavyweapons_Heater // Huo-Long, 2000 HP | 50% Move
+		{
+			Class Heavyweapons
+			ClassIcon heavy_heater_giant
+			Skill Expert
+			Health 2000
+			WeaponRestrictions PrimaryOnly
+			Name "Scorching Sargent"
+			Item "The Huo Long Heatmaker"
+			//Item "Yeti_Arms"
+			Item "Full Metal Drill Hat"
+			Item "The Macho Man"
+			Attributes MiniBoss
+			Tag bomb_carrier
+			Tag bot_giant
+			ItemAttributes
+			{
+				ItemName "The Huo Long Heatmaker"
+				"damage bonus"	1
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.5
+				"damage force reduction" 0.3
+				"airblast vulnerability multiplier" 0.3
+				"override footstep sound set" 2
+			}
+		}
+		T_Winter_Giant_Heavyweapons_Tomislav // Pushing Tomi, 2000 HP | 50% Move
+		{
+			Class Heavyweapons
+			ClassIcon heavy
+			Skill Expert
+			Health 2000
+			WeaponRestrictions PrimaryOnly
+			Name "Outranged Outdoorsman"
+			Item "The Outdoorsman"
+			Item "The Apparatchik's Apparel"
+			Item "Tomislav"
+			Attributes MiniBoss
+			Tag bot_giant
+			ItemAttributes
+			{
+				ItemName "Tomislav"
+				"damage bonus"	1
+				"apply look velocity on damage"	50
+				"apply z velocity on damage"	50
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.5
+				"damage force reduction" 0.3
+				"airblast vulnerability multiplier" 0.3
+				"override footstep sound set" 2
+			}
+		}
+		T_Winter_Giant_Heavyweapons_Rockets // Rocket Shooter 20000 | 50% move
+		{
+			Class Heavyweapons
+			ClassIcon	soldier_barrage
+			Name "Tannenberg"
+			Skill Expert
+			Health 15000
+			WeaponRestrictions PrimaryOnly
+			Item "Loyalty Reward"
+			Item "Tsar Platinum"
+			Item "The Dictator"
+			Item "Tomislav"
+			Item "The Battalion's Backup"
+			Attributes SpawnWithFullCharge
+			Attributes MiniBoss
+			Attributes UseBossHealthBar
+			WeaponRestrictions PrimaryOnly
+			Tag bot_giant
+			ItemAttributes
+			{
+				ItemName "Tomislav"
+				"damage bonus"	2.5
+				"apply look velocity on damage"	50
+				"apply z velocity on damage"	50
+				"override projectile type" 2
+				"custom projectile model" "models/items/gift_festive.mdl"
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.5
+				"damage force reduction" 0.3
+				"airblast vulnerability multiplier" 0.3
+				"override footstep sound set" 2
+				"increase buff duration" 2.0
+			}
+		}
+		T_Winter_Giant_Boxing_Heavy // 120% Damage | 4000 HP | 50% Move
+		{
+			Class heavyweapons
+			Name "Provoked Polar Pal"
+			ClassIcon heavy_champ_giant
+			Skill Expert
+			Health 7500
+			Item "the killing gloves of boxing"
+			Item "Polar Bear"
+			Item "The Polar Pal"
+			Item "The Gift Bringer"
+			WeaponRestrictions MeleeOnly
+			Tag bot_giant
+			Attributes MiniBoss
+			Attributes UseBossHealthBar
+			ItemAttributes
+			{
+				ItemName "the killing gloves of boxing"
+				"fire rate bonus" 0.6
+				"damage bonus" 1.2
+
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.5
+				"damage force reduction" 0.3
+				"airblast vulnerability multiplier" 0.3
+				"override footstep sound set" 2
+			}
+		}
+		T_Summer_Giant_Boxing_Heavy // 120% Damage | 4000 HP | 50% Move
+		{
+			Class heavyweapons
+			Name "Beachside Brawler Champion"
+			ClassIcon heavy_champ_giant
+			Skill Expert
+			Health 7500
+			Item "the killing gloves of boxing"
+			Item "The Macho Mann"
+			Item "The Gift Bringer"
+			WeaponRestrictions MeleeOnly
+			Tag bot_giant
+			Attributes MiniBoss
+			Attributes UseBossHealthBar
+			ItemAttributes
+			{
+				ItemName "the killing gloves of boxing"
+				"fire rate bonus" 0.6
+				"damage bonus" 1.2
+
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.5
+				"damage force reduction" 0.3
+				"airblast vulnerability multiplier" 0.3
+				"override footstep sound set" 2
+			}
+		}
+		T_Summer_Giant_Heavyweapons_Rockets // Rocket Shooter 20000 | 50% move
+		{
+			Class Heavyweapons
+			ClassIcon	soldier_barrage_giant
+			Name "Tannenberg"
+			Skill Expert
+			Health 15000
+			WeaponRestrictions PrimaryOnly
+			Item "Loyalty Reward"
+			Item "Tsar Platinum"
+			Item "The Dictator"
+			Item "Tomislav"
+			Item "The Battalion's Backup"
+			Attributes SpawnWithFullCharge
+			Attributes MiniBoss
+			Attributes UseBossHealthBar
+			WeaponRestrictions PrimaryOnly
+			Tag bot_giant
+			ItemAttributes
+			{
+				ItemName "Tomislav"
+				"damage bonus"	2.5
+				"apply look velocity on damage"	50
+				"apply z velocity on damage"	50
+				"override projectile type" 2
+			}
+			CharacterAttributes
+			{
+				"move speed bonus"	0.5
+				"damage force reduction" 0.3
+				"airblast vulnerability multiplier" 0.3
+				"override footstep sound set" 2
+				"increase buff duration" 2.0
+			}
+		}
+	//Engie
+	//Medic
+		T_Summer_Giant_Medic_Bigheal
+		{
+			Name "Major Medic"
+			Class Medic
+			ClassIcon medic_giant
+			Skill Expert
+			Health 4500
+			Attributes MiniBoss
+			Item "The Surgeon's Stahlhelm"
+			Item "Vitals Vest"	
+			Item "The Quick-Fix"
+			CharacterAttributes {
+				"move speed bonus" 0.5
+				"damage force reduction" 0.3
+				"airblast vulnerability multiplier"	0.3
+				"heal rate bonus" 100 // Only works on mediguns with this attribute, such as Quick-Fix
+			}
+			WeaponRestrictions SecondaryOnly
+			Item "The Quick-Fix"
+			ItemAttributes {
+				ItemName "The Quick-Fix"
+				"ubercharge rate bonus" 0.01 // Disables Ubercharge
+			}
+			ItemAttributes {
+				ItemName "TF_WEAPON_SYRINGEGUN_MEDIC"
+				"damage penalty" 0.1
+			}
+		}
+	//Sniper
+		T_Winter_Giant_Sniper_Huntsman_Spammer // 800 HP | 85% Move | 60% damage
+		{
+			Class Sniper
+			Name "Aggressive Archer"
+			Scale 1.5
+			Health 800
+			ClassIcon sniper_bow_multi
+			
+			Item "The Cold Killer"
+			Item "Merc's Pride Scarf"
+			Item "Festive Huntsman"
+			Skill Hard
+			Tag bot_giant
+			ItemAttributes
+			{
+				ItemName "Festive Huntsman"
+				"fire rate bonus" 0.6
+				"damage bonus" 0.6
+			}
+			CharacterAttributes
+			{
+				"head scale" 0.7
+				"move speed bonus"	0.65
+			}
+		}
+		T_Summer_Sniper_Rifle_Burst_Giant
+        {
+            Name "Fireworks Cheif"
+            Class Sniper
+			ClassIcon sniper_giant
+            Skill Hard
+            Health 5000
+            Item "The AWPer Hand"
+            Item "Soldier Drill Hat"
+            Item "The Triggerman's Tacticals"
+            Attributes AlwaysFireWeapon
+            Attributes MiniBoss
+            WeaponRestrictions PrimaryOnly
+            MaxVisionRange 1500
+
+            ItemAttributes
+            {
+                ItemName "The AWPer Hand"
+                "damage penalty" 0.5
+                "faster reload rate" 0.03
+                "sniper fires tracer hidden" 1
+                "lunchbox adds minicrits" 3
+            }
+
+            ItemAttributes
+            {
+                ItemName TF_WEAPON_SMG
+                is_passive_weapon 1
+                "override projectile type" 27
+                "clip size penalty" 0.2
+                "reload time increased" 1.5
+                "gesture speed increase" 2
+                "hand scale" 0.75
+                "head scale" 0.7
+            }
+
+            CharacterAttributes
+            {
+                "move speed bonus" 0.4
+                "damage force reduction" 0.35
+                "airblast vulnerability multiplier" 0.35
+                "airblast vertical vulnerability multiplier" 0.5
+                "override footstep sound set" 7
+            }
+        }
+	//Spy
+	}
+}

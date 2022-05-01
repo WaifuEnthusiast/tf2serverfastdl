@@ -1,0 +1,1943 @@
+/////////////////////////////////////////////////////////////////////
+// Helpful debug and console commands for developing MVM population scripts:
+//
+// sv_cheats 1 							// Allows cheat commands.
+// currency_give x						// Give player x amount of game currency to be used on upgrades.
+// tf_populator_health_multiplier x.x	// Multiplies health of enemy bots - example: tf_populator_health_multiplier 0.01 will set health of bots to 1% of normal.
+// tf_mvm_popfile abcd					// Will load the .pop file of the specified name - example tf_mvm_popfile mvm_mapname_challenge2 will load mvm_mapname_challenge2.pop in the tf/scripts/population directory.
+// tf_mvm_jump_to_wave x				// Will jump to the specified wave number of the current .pop file - example tf_mvm_jump_to_wave 6 will jump to wave 6.
+// tf_bot_flag_kill_on_touch 1			// When a bot picks up the flag, they die.
+// host_timescale 10					// timescale up
+// addcond [91, 72, 33, 5]				// Enables Haste, Jump, Crit, and Uber respectively
+/////////////////////////////////////////////////////////////////////
+// BEGIN POP FILE
+/////////////////////////////////////////////////////////////////////
+
+#base gd_summer_robot_total.pop
+
+WaveSchedule
+{
+//Initilaize
+StartingCurrency 1200
+RespawnWaveTime 3 //Check if you can disable 2s increase
+CanBotsAttackWhileInSpawnRoom no
+MaxRedPlayers 2 [$SIGSEGV]
+
+Mission // Sentry Buster - Wave 1 to 2 | 45sec Cooldown - Bomb Trail
+{
+Objective DestroySentries
+InitialCooldown 45
+Where spawnbot_left
+Where spawnbot_right
+Where spawnbot_forwards
+BeginAtWave 1
+RunForThisManyWaves 2
+CooldownTime 45
+DesiredCount 1
+TFBot
+{
+Template T_Winter_Trail_Buster
+Tag bot_trashmob
+}
+}
+Mission // Sentry Buster - Wave 2 to 4 | 35sec Cooldown - Bomb Trail
+{
+Objective DestroySentries
+InitialCooldown 45
+Where spawnbot_left
+Where spawnbot_right
+Where spawnbot_forwards
+BeginAtWave 3
+RunForThisManyWaves 1
+CooldownTime 35
+DesiredCount 1
+TFBot
+{
+Template T_Winter_Trail_Buster
+Attributes AlwaysCrit
+Tag bot_trashmob
+}
+}
+Mission // Sentry Buster - Wave 5 to 5 | 30sec Cooldown - Bomb Trail
+{
+Objective DestroySentries
+InitialCooldown 45
+Where spawnbot_left
+Where spawnbot_right
+Where spawnbot_forwards
+BeginAtWave 5
+RunForThisManyWaves 2
+CooldownTime 30
+DesiredCount 1
+TFBot
+{
+Template T_Winter_Trail_Buster
+Attributes AlwaysCrit
+Tag bot_trashmob
+}
+}
+Mission // Spy - Wave 5 to 5 | 30sec Cooldown
+{
+	Objective Spy
+	Where spawnbot_left
+	Where spawnbot_right
+	Where spawnbot_forwards
+	BeginAtWave 5
+	RunForThisManyWaves 1
+	InitialCooldown 45
+	CooldownTime 30
+	DesiredCount 1
+	TFBot
+	{
+		Class Spy
+		Attributes AlwaysCrit
+		Item "Kiss King"	
+		Skill Expert
+		Tag bot_trashmob
+	}
+}
+//WAVE 01 | Money: +900 (800 + 100) | Total: 2100 (100 Bonus)
+Wave	
+{
+WaitWhenDone 60
+Sound "Announcer.IncomingMob"
+Checkpoint Yes
+
+StartWaveOutput
+{
+Target wave_start_relay
+Action trigger
+}
+DoneOutput												
+{
+Target wave_finished_relay						
+Action trigger									
+}
+
+WaveSpawn //Scouts | 150
+{
+Name "w1_scouts"
+Where spawnbot_right
+Where spawnbot_left
+Where spawnbot_forwards
+TotalCount 30
+MaxActive 10
+SpawnCount 5
+WaitBeforeStarting 0
+WaitBetweenSpawns 4
+TotalCurrency 150
+
+TFBot
+{
+Template T_Winter_Scout_Melee
+BehaviorModifiers Push
+}
+}
+WaveSpawn //Scouts Support| 100
+{
+Name "w1_scouts"
+Where spawnbot_right
+Where spawnbot_left
+Where spawnbot_forwards
+MaxActive 9
+SpawnCount 3
+WaitBeforeStarting 0
+WaitBetweenSpawns 4
+TotalCurrency 100
+
+TFBot
+{
+Template T_Winter_Scout_Melee
+BehaviorModifiers Push
+}
+}
+WaveSpawn //Demoman Left | 80
+{
+Name "w1_demoman"
+Where spawnbot_left
+Where spawnbot_forwards
+TotalCount 12
+MaxActive 6
+SpawnCount 3
+WaitBeforeStarting 0
+WaitBetweenSpawns 8
+TotalCurrency 80		
+
+TFBot
+{
+Template T_Winter_Demo_Burst_Gift
+CharacterAttributes
+{
+"move speed bonus" 0.6
+}
+BehaviorModifiers Push
+}
+}
+WaveSpawn //Demoman Right | 80
+{
+Name "w1_demoman"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 12
+MaxActive 6
+SpawnCount 3
+WaitBeforeStarting 0
+WaitBetweenSpawns 8
+TotalCurrency 80
+
+TFBot
+{
+Template T_Winter_Demo_Burst_Gift
+CharacterAttributes
+{
+"move speed bonus" 0.6
+}
+BehaviorModifiers Push
+}
+}
+WaveSpawn //Demoman Support All | 50
+{
+Name "w1_demoman_support"
+WaitForAllDead "w1_demoman"
+Where spawnbot_right
+Where spawnbot_left
+Where spawnbot_forwards
+MaxActive 8
+SpawnCount 4
+WaitBeforeStarting 2
+WaitBetweenSpawns 10
+TotalCurrency 50
+
+Support 1
+
+TFBot
+{
+Template T_Winter_Demo_Burst_Gift
+BehaviorModifiers Push
+CharacterAttributes
+{
+"move speed bonus" 0.6
+}
+}
+}
+WaveSpawn //Heavy Mittens Support All | 80
+{
+Name "w1_mitten_support"
+WaitForAllDead "w1_demoman"
+Where spawnbot_right
+Where spawnbot_left
+Where spawnbot_forwards
+MaxActive 8
+SpawnCount 4
+WaitBeforeStarting 2
+WaitBetweenSpawns 6
+TotalCurrency 80
+
+Support 1
+
+TFBot
+{
+Template T_Winter_Heavy_Mittens
+BehaviorModifiers Push
+CharacterAttributes
+{
+"move speed bonus" 0.6
+}
+}
+}
+WaveSpawn //HeavyMedic QuickMittens Left | 80
+{
+Name "w1_mitten"
+WaitForAllDead "w1_demoman"
+Where spawnbot_left
+Where spawnbot_forwards
+TotalCount 8
+MaxActive 4
+SpawnCount 2
+WaitBeforeStarting 0
+WaitBetweenSpawns 5
+TotalCurrency 80	
+
+Squad
+{
+TFBot
+{
+Template T_Winter_Heavy_Mittens
+Attributes AlwaysCrit
+BehaviorModifiers Push
+CharacterAttributes
+{
+"move speed bonus" 0.6
+}
+}
+TFBot
+{
+Template T_Winter_Medic_Superheal
+Tag bot_squad_member
+}
+}
+}
+WaveSpawn //HeavyMedic QuickMittens Right | 80
+{
+Name "w1_mitten"
+WaitForAllDead "w1_demoman"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 8
+MaxActive 4
+SpawnCount 2
+WaitBeforeStarting 0
+WaitBetweenSpawns 5
+TotalCurrency 80	
+
+Squad
+{
+TFBot
+{
+Template T_Winter_Heavy_Mittens
+Attributes AlwaysCrit
+BehaviorModifiers Push
+CharacterAttributes
+{
+"move speed bonus" 0.6
+}
+}
+TFBot
+{
+Template T_Winter_Medic_Superheal
+Tag bot_squad_member
+}
+}
+}
+WaveSpawn // Giant Rocket Heavy Right | 100
+{
+Name "w1_giant_heavy_rockets"
+WaitForAllSpawned "w1_mitten"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 5
+MaxActive 5
+SpawnCount 5
+WaitBeforeStarting 15
+WaitBetweenSpawns 0
+TotalCurrency 100
+Squad
+{
+TFBot
+{
+Template T_Winter_Giant_Heavyweapons_Rockets
+ClassIcon	soldier_barrage
+ItemAttributes
+		{
+			ItemName "Tomislav"
+			"damage bonus"	1.5
+			"apply look velocity on damage"	50
+			"apply z velocity on damage"	50
+			"override projectile type" 2
+			"custom projectile model" "models/items/gift_festive.mdl"
+		}
+Health 3000
+Tag bot_boss
+BehaviorModifiers	Push
+}
+TFBot
+{
+Template T_Winter_Medic_QuickUber
+BehaviorModifiers	Push
+}
+TFBot
+{
+Template T_Winter_Medic_QuickUber
+BehaviorModifiers	Push
+}
+TFBot
+{
+Template T_Winter_Medic_QuickUber
+BehaviorModifiers	Push
+}
+TFBot
+{
+Template T_Winter_Medic_QuickUber
+BehaviorModifiers	Push
+}
+}
+}
+}
+
+//Wave 02 | Money: +800 (700 + 100) | Total: 2900 (200 Bonus)
+Wave
+{
+WaitWhenDone 60
+Sound "Announcer.IncomingMob"
+Checkpoint Yes
+
+StartWaveOutput
+{
+Target wave_start_relay
+Action trigger
+}
+DoneOutput												
+{
+Target wave_finished_relay						
+Action trigger									
+}
+
+WaveSpawn // Giant Scout Baseball Right | 100
+{
+TotalCurrency 100
+Name "w2_superscout"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 1
+MaxActive 1
+SpawnCount 1
+WaitBetweenSpawns 0
+WaitBeforeStarting 0
+RandomSpawn 1
+
+TFBot
+{
+Template T_Winter_Giant_Scout_Baseball
+Health 3000
+CharacterAttributes
+{
+	"move speed bonus" 0.8	
+}
+Tag bot_giant
+Attributes AlwaysCrit
+BehaviorModifiers	Push
+}
+}
+WaveSpawn //Heavy GRU | 150
+{
+Name "w2_heavy_gru"
+Where spawnbot_right
+Where spawnbot_left
+Where spawnbot_forwards
+TotalCount 30
+MaxActive 10
+SpawnCount 5
+WaitBeforeStarting 10
+WaitBetweenSpawns 6
+TotalCurrency 150
+
+TFBot
+{
+Template T_Winter_Running_Heavy
+BehaviorModifiers Push
+	CharacterAttributes
+	{
+		"move speed bonus" 0.6
+	}
+}
+}
+WaveSpawn //Heavy GRU Support | 50
+{
+Name "w2_heavy_gru_support"
+WaitForAllDead "w2_heavy_gru"
+Where spawnbot_right
+Where spawnbot_left
+Where spawnbot_forwards
+MaxActive 9
+SpawnCount 3
+WaitBeforeStarting 2
+WaitBetweenSpawns 6
+TotalCurrency 50
+Support 1
+
+TFBot
+{
+Template T_Winter_Running_Heavy
+BehaviorModifiers Push
+	CharacterAttributes
+	{
+	"move speed bonus" 0.6
+	}
+}
+}
+WaveSpawn // Huntsman + Pyro Squad | 100
+{
+TotalCurrency 100
+WaitForAllDead "w2_superscout"
+Name "w2_hunt_pyro"
+Where spawnbot_right
+Where spawnbot_left
+Where spawnbot_forwards
+TotalCount 18
+MaxActive 12
+SpawnCount 3
+WaitBetweenSpawns 2
+WaitBeforeStarting 10
+RandomSpawn 1
+Squad
+{
+	TFBot
+	{
+		Template T_Winter_Pyro_AlwaysFire
+		BehaviorModifiers	Push
+	}
+	TFBot
+	{
+		Template T_Winter_Sniper_Huntsman
+		BehaviorModifiers	Push
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Sniper_Huntsman
+		BehaviorModifiers	Push
+		Tag bot_squad_member
+	}
+}
+}
+WaveSpawn // Giant Demoman Burst right | 100
+{
+TotalCurrency 100
+WaitForAllSpawned "w2_hunt_pyro"
+Name "w2_giant_demo"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 4
+MaxActive 4
+SpawnCount 4
+WaitBetweenSpawns 5
+WaitBeforeStarting 20
+RandomSpawn 1
+
+Squad
+{
+	TFBot
+	{
+		Template T_Winter_Giant_Demo_Burst_Gift
+		Tag bot_giant
+		Tag bot_boss
+		BehaviorModifiers	Push
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+}
+}
+WaveSpawn // Giant Demoman Burst left | 100
+{
+TotalCurrency 100
+WaitForAllSpawned "w2_hunt_pyro"
+Name "w2_giant_demo"
+Where spawnbot_left
+Where spawnbot_forwards
+TotalCount 4
+MaxActive 4
+SpawnCount 4
+WaitBetweenSpawns 5
+WaitBeforeStarting 20
+RandomSpawn 1
+
+Squad
+{
+	TFBot
+	{
+		Template T_Winter_Giant_Demo_Burst_Gift
+		Tag bot_giant
+		Tag bot_boss
+		BehaviorModifiers	Push
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+}
+}
+WaveSpawn // Giant Scout Baseball Right | 100
+{
+TotalCurrency 100
+Name "w2_superscout_late"
+WaitForAllSpawned "w2_giant_demo"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 4
+MaxActive 4
+SpawnCount 1
+WaitBetweenSpawns 10
+WaitBeforeStarting 0
+RandomSpawn 1
+
+TFBot
+{
+Template T_Winter_Giant_Scout_Baseball
+Health 1250
+CharacterAttributes
+{
+	"move speed bonus" 0.8	
+}
+Tag bot_giant
+Attributes AlwaysCrit
+BehaviorModifiers	Push
+}
+}
+}
+
+//Wave 03 | Money: +850 (750 + 100)| Total: 3750 (300 Bonus)
+Wave
+{
+WaitWhenDone 60
+Sound "Announcer.IncomingMob"
+Checkpoint Yes
+
+StartWaveOutput
+{
+Target wave_start_relay
+Action trigger
+}
+DoneOutput												
+{
+Target wave_finished_relay						
+Action trigger									
+}
+
+WaveSpawn //Heavy RocketGRU | 150
+{
+	Name "w3_heavy_gru"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 36
+	MaxActive 12
+	SpawnCount 6
+	WaitBeforeStarting 0
+	WaitBetweenSpawns 6
+	TotalCurrency 150
+
+	Squad
+	{
+		TFBot
+		{
+		Template T_Winter_Running_Heavy
+		Attributes AlwaysCrit
+		ClassIcon heavy_gru
+		Health 450
+		BehaviorModifiers Push
+			CharacterAttributes
+			{
+				"move speed bonus" 0.8
+			}
+		}
+		TFBot
+		{
+			Template T_Winter_Heavy_Gift
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Winter_Heavy_Gift
+			BehaviorModifiers Push
+		}
+	}
+	
+}
+WaveSpawn //RocketHeavy Support | 40
+{
+	Name "w3_heavy_gru_support"
+	WaitForAllDead "w3_heavy_gru"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	MaxActive 5
+	SpawnCount 5
+	WaitBeforeStarting 0
+	WaitBetweenSpawns 8
+	TotalCurrency 40
+	Support 1
+	TFBot
+	{
+		Template T_Winter_Heavy_Gift
+		BehaviorModifiers Push
+	}
+}
+WaveSpawn // Flare Sand | 100
+{
+	TotalCurrency 100
+	Name "w3_flaregun_sandman"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 24
+	MaxActive 8
+	SpawnCount 4
+	WaitBetweenSpawns 5
+	WaitBeforeStarting 5
+	RandomSpawn 1
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Pyro_Flaregun
+			CharacterAttributes
+			{
+				"move speed bonus" 0.75
+			}
+			Attributes AlwaysCrit
+			BehaviorModifiers Push
+		}
+		TFBot
+		{
+			Template T_Winter_Scout_Sandman_FastCharge
+			Attributes AlwaysCrit
+			BehaviorModifiers Push
+		}
+	}
+}
+WaveSpawn //Demoman Support Left | 80
+{
+Name "w3_demoman_support"
+WaitForAllSpawned "w3_heavy_gru"
+Where spawnbot_left
+Where spawnbot_forwards
+
+MaxActive 2
+SpawnCount 2
+WaitBeforeStarting 5
+WaitBetweenSpawns 8
+TotalCurrency 80		
+
+Support 1
+
+TFBot
+{
+Template T_Winter_Demo_Burst_Gift
+CharacterAttributes
+{
+"move speed bonus" 0.6
+}
+BehaviorModifiers Push
+Tag bot_boss
+}
+}
+WaveSpawn //Demoman Support Right | 80
+{
+Name "w3_demoman_support"
+WaitForAllSpawned "w3_heavy_gru"
+Where spawnbot_right
+Where spawnbot_forwards
+
+MaxActive 2
+SpawnCount 2
+WaitBeforeStarting 5
+WaitBetweenSpawns 8
+TotalCurrency 80
+
+Support 1
+
+TFBot
+{
+Template T_Winter_Demo_Burst_Gift
+CharacterAttributes
+{
+"move speed bonus" 0.6
+}
+BehaviorModifiers Push
+Tag bot_boss
+}
+}
+WaveSpawn // Giant Demoman Burst Right | 50
+{
+TotalCurrency 50
+Name "w3_giant_demo"
+WaitForAllSpawned "w3_flaregun_sandman"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 5
+MaxActive 5
+SpawnCount 5
+WaitBetweenSpawns 5
+WaitBeforeStarting 20
+RandomSpawn 1
+
+Squad
+{
+	TFBot
+	{
+		Template T_Winter_Giant_Demo_Burst_Gift
+		Tag bot_giant
+		Tag bot_boss
+		BehaviorModifiers	Push
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+}
+}
+WaveSpawn // Giant Demoman Burst Left | 50
+{
+TotalCurrency 50
+Name "w3_giant_demo"
+WaitForAllSpawned "w3_flaregun_sandman"
+Where spawnbot_left
+Where spawnbot_forwards
+TotalCount 5
+MaxActive 5
+SpawnCount 5
+WaitBetweenSpawns 5
+WaitBeforeStarting 20
+RandomSpawn 1
+
+Squad
+{
+	TFBot
+	{
+		Template T_Winter_Giant_Demo_Burst_Gift
+		Tag bot_giant
+		Tag bot_boss
+		BehaviorModifiers	Push
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+}
+}
+WaveSpawn // RocketHeavy Left | 100
+{
+TotalCurrency 100
+Name "w3_heavy_gift"
+WaitForAllDead "w3_flaregun_sandman"
+Where spawnbot_left
+Where spawnbot_forwards
+TotalCount 12
+MaxActive 6
+SpawnCount 3
+WaitBetweenSpawns 5
+WaitBeforeStarting 5
+RandomSpawn 1
+
+	TFBot
+	{
+		Template T_Winter_Heavy_Gift
+		Health 300
+		BehaviorModifiers	Push
+	}
+}
+WaveSpawn // Giant Heavy Right | 100
+{
+TotalCurrency 100
+Name "w3_giant_boxing_heavy"
+WaitForAllSpawned "w3_giant_demo"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 10
+MaxActive 5
+SpawnCount 5
+WaitBeforeStarting 15
+WaitBetweenSpawns 15
+RandomSpawn 1
+
+Squad
+{
+	TFBot
+	{
+		Template T_Winter_Giant_Boxing_Heavy
+		Attributes SpawnWithFullCharge
+		Item "Festive Buff Banner"
+		CharacterAttributes
+		{
+				"increase buff duration"	9.0
+		}
+		Health 7500
+		Tag bot_giant
+		Tag bot_boss
+		BehaviorModifiers	Push
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+}
+
+}
+}
+
+//Wave 04 | Money: +1050 (950 + 100)| Total: 4800 (400 Bonus)
+Wave
+{
+WaitWhenDone 60
+Sound "Announcer.IncomingMob"
+Checkpoint Yes
+
+StartWaveOutput
+{
+Target wave_start_relay
+Action trigger
+}
+DoneOutput												
+{
+Target wave_finished_relay						
+Action trigger									
+}
+
+WaveSpawn // SniperHunt  | 100
+{
+	TotalCurrency 100
+	Name "w4_sniper_uber"
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 8
+	MaxActive 8
+	SpawnCount 2
+	WaitBetweenSpawns 12
+	WaitBeforeStarting 0
+	RandomSpawn 1
+	
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Giant_Sniper_Huntsman_Spammer		
+			BehaviorModifiers	Push
+			Attributes MiniBoss
+			Skill Expert
+		}
+		TFBot
+		{
+			Template T_Winter_Medic_QuickUber
+			Tag bot_squad_member
+		}
+	}
+}
+WaveSpawn // SniperHunt  | 100
+{
+	TotalCurrency 100
+	Name "w4_sniper_uber"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 8
+	MaxActive 8
+	SpawnCount 2
+	WaitBetweenSpawns 12
+	WaitBeforeStarting 0
+	RandomSpawn 1
+	
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Giant_Sniper_Huntsman_Spammer
+			BehaviorModifiers	Push
+			Attributes MiniBoss
+			Skill Expert
+		}
+		TFBot
+		{
+			Template T_Winter_Medic_QuickUber
+		}
+	}
+}
+WaveSpawn // Knights | 50
+{
+	TotalCurrency 50
+	Name "w4_demoknight"
+	Where spawnbot_left
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 15
+	MaxActive 15
+	SpawnCount 3
+	WaitBetweenSpawns 5
+	WaitBeforeStarting 0
+	TFBot
+	{
+		Template T_Winter_Demoman_Knight
+		BehaviorModifiers	Push
+		Attributes AlwaysCrit
+	}
+}
+WaveSpawn // Giant Scout Baseball Right | 100
+{
+	TotalCurrency 100
+	Name "w4_superscout"
+	WaitForAllSpawned "w4_sniper_uber"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 8
+	MaxActive 2
+	SpawnCount 1
+	WaitBetweenSpawns 4
+	WaitBeforeStarting 12
+	RandomSpawn 1
+
+	TFBot
+	{
+		Template T_Winter_Giant_Scout_Baseball
+		Health 1500
+		CharacterAttributes
+		{
+			"move speed bonus" 0.8
+		}
+		Tag bot_giant
+		Attributes AlwaysCrit
+		BehaviorModifiers	Push
+	}
+}
+WaveSpawn // DF Pyro  | 100
+{
+	TotalCurrency 100
+	Name "w4_df_pyro"
+	WaitForAllDead "w4_demoknight"
+	Where spawnbot_left
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 15
+	MaxActive 15
+	SpawnCount 3
+	WaitBetweenSpawns 5
+	WaitBeforeStarting 0
+	RandomSpawn 1
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Pyro_DragonFury
+			BehaviorModifiers	Push
+		}
+		TFBot
+		{
+			Template T_Winter_Pyro_Flaregun
+			BehaviorModifiers	Push
+		}
+		TFBot
+		{
+			Template T_Winter_Pyro_Flaregun
+			BehaviorModifiers	Push
+		}
+	}
+}
+WaveSpawn // Flare Support | 100
+{
+	TotalCurrency 100
+	Name "w4_pyro_support"
+	WaitForAllDead "w4_df_pyro"
+	Where spawnbot_left
+	Where spawnbot_right
+	Where spawnbot_forwards
+	MaxActive 9
+	SpawnCount 3
+	WaitBetweenSpawns 8
+	WaitBeforeStarting 2
+	RandomSpawn 1
+
+	TFBot
+	{
+		Template T_Winter_Pyro_Flaregun
+		BehaviorModifiers	Push
+	}
+}
+WaveSpawn // Pyro Axetinguisher All | 100
+{
+	Name "w4_pyro_axe"
+	WaitForAllSpawned "w4_demoknight"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 30	
+	MaxActive 12
+	SpawnCount 6
+	WaitBeforeStarting 10
+	WaitBetweenSpawns 5
+	TotalCurrency 100
+	TFBot
+	{
+		Template T_Winter_Pyro_Axtinguisher
+		BehaviorModifiers	Push
+	}
+}
+WaveSpawn //Heavy GRU Support | 150
+{
+	Name "w4_heavy_gru_support"
+	WaitForAllDead "w4_pyro_axe"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	MaxActive 10
+	SpawnCount 5
+	WaitBeforeStarting 0
+	WaitBetweenSpawns 12
+	TotalCurrency 150
+	Support 1
+	TFBot
+	{
+	Template T_Winter_Running_Heavy
+	Attributes AlwaysCrit
+	Health 450
+	BehaviorModifiers Push
+		CharacterAttributes
+		{
+			"move speed bonus" 0.6
+		}
+	}
+}
+WaveSpawn //Heavy Demo Boss | 150
+{
+	Name "w4_heavy_demo_finale"
+	WaitForAllSpawned "w4_superscout"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 3
+	MaxActive 3
+	SpawnCount 3
+	WaitBeforeStarting 15
+	WaitBetweenSpawns 5
+	TotalCurrency 150
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Giant_Heavyweapons_Rockets
+			Health 5000
+			Attributes AlwaysCrit
+			Tag bot_boss
+			ClassIcon soldier_spammer
+			BehaviorModifiers	Push
+		}
+		TFBot
+		{
+			Template T_Winter_Giant_Demo_Burst_Gift
+			Health 2500
+			Attributes AlwaysCrit
+			BehaviorModifiers	Push
+		}
+		TFBot
+		{
+			Template T_Winter_Giant_Demo_Burst_Gift
+			Health 2500
+			Attributes AlwaysCrit
+			BehaviorModifiers	Push
+		}
+	}
+}
+
+}
+
+//Wave 05 | Money: +1300 (1200 + 100) | Total: 6100 (500 Bonus)
+Wave
+{
+WaitWhenDone 60
+Sound "Announcer.IncomingMob"
+Checkpoint Yes
+
+StartWaveOutput
+{
+Target wave_start_relay
+Action trigger
+}
+DoneOutput												
+{
+Target wave_finished_relay						
+Action trigger									
+}
+
+
+WaveSpawn //Demoman Left | 25
+{
+Name "w5_demoman"
+Where spawnbot_left
+Where spawnbot_forwards
+TotalCount 8
+MaxActive 4
+SpawnCount 4
+WaitBeforeStarting 0
+WaitBetweenSpawns 8
+TotalCurrency 25
+
+TFBot
+{
+Template T_Winter_Demo_Burst_Gift
+Attributes AlwaysCrit
+CharacterAttributes
+{
+"move speed bonus" 0.6
+}
+BehaviorModifiers Push
+}
+}
+WaveSpawn //Demoman Right | 25
+{
+Name "w5_demoman"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 8
+MaxActive 4
+SpawnCount 4
+WaitBeforeStarting 0
+WaitBetweenSpawns 8
+TotalCurrency 25
+
+TFBot
+{
+Template T_Winter_Demo_Burst_Gift
+Attributes AlwaysCrit
+CharacterAttributes
+{
+"move speed bonus" 0.6
+}
+BehaviorModifiers Push
+}
+}
+WaveSpawn //Heavy Shotgun | 100
+{
+	Name "w5_heavy_shotgun"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	TotalCount 20
+	MaxActive 10
+	SpawnCount 5
+	WaitBeforeStarting 0
+	WaitBetweenSpawns 6
+	TotalCurrency 100
+
+	TFBot
+	{
+	Template T_Winter_Heavyweapons_Shotgun
+	ClassIcon heavy_shotgun_giant
+	Health 300
+	BehaviorModifiers Push
+		CharacterAttributes
+		{
+			"move speed bonus" 0.6
+		}
+	}
+}
+WaveSpawn //Heavy Shotgun Support | 100
+{
+	Name "w5_heavy_shotgun_support"
+	WaitForAllDead "w5_heavy_shotgun"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	MaxActive 6
+	SpawnCount 3
+	WaitBeforeStarting 0
+	WaitBetweenSpawns 12
+	TotalCurrency 100
+	
+	Support 1
+	TFBot
+	{
+	Template T_Winter_Heavyweapons_Shotgun
+	Health 300
+	BehaviorModifiers Push
+		CharacterAttributes
+		{
+			"move speed bonus" 0.6
+		}
+	}
+}
+WaveSpawn // Soldier Spammer Left | 50
+{
+		Name "w5_solider_spammer_left"
+		Where spawnbot_left
+		Where spawnbot_forwards
+		TotalCount 2
+		MaxActive 2
+		SpawnCount 1
+		WaitBeforeStarting 10
+		WaitBetweenSpawns 30
+		TotalCurrency 50
+		TFBot
+		{
+			Template T_Winter_Giant_Soldier_Spammer
+			Tag bot_boss
+			Attributes AlwaysCrit
+			BehaviorModifiers	Push
+		}
+}	
+WaveSpawn // Solider Spammer Right | 50
+{
+		Name "w5_solider_spammer_right"
+		Where spawnbot_right
+		Where spawnbot_forwards
+		TotalCount 2
+		MaxActive 2
+		SpawnCount 1
+		WaitBeforeStarting 10
+		WaitBetweenSpawns 30
+		TotalCurrency 50
+		TFBot
+		{
+			Template T_Winter_Giant_Soldier_Spammer
+			Tag bot_boss
+			Attributes AlwaysCrit
+			BehaviorModifiers	Push
+		}
+}
+WaveSpawn // Giant Demoman Burst right | 100
+{
+TotalCurrency 100
+WaitForAllSpawned "w5_solider_spammer_right"
+Name "w5_giant_demo"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 4
+MaxActive 4
+SpawnCount 4
+WaitBetweenSpawns 5
+WaitBeforeStarting 20
+RandomSpawn 1
+
+Squad
+{
+	TFBot
+	{
+		Template T_Winter_Giant_Demo_Burst_Gift
+		Attributes AlwaysCrit
+		Tag bot_giant
+		Tag bot_boss
+		BehaviorModifiers	Push
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+}
+}
+WaveSpawn // Giant Demoman Burst left | 100
+{
+TotalCurrency 100
+WaitForAllSpawned "w5_solider_spammer_left"
+Name "w5_giant_demo"
+Where spawnbot_left
+Where spawnbot_forwards
+TotalCount 4
+MaxActive 4
+SpawnCount 4
+WaitBetweenSpawns 5
+WaitBeforeStarting 20
+RandomSpawn 1
+
+Squad
+{
+	TFBot
+	{
+		Template T_Winter_Giant_Demo_Burst_Gift
+		Attributes AlwaysCrit
+		Tag bot_giant
+		BehaviorModifiers	Push
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+}
+}
+WaveSpawn //BB Soldiers Right | 150
+{
+		Name "w5_solider_shotguns"
+		WaitForAllDead "w5_heavy_shotgun"
+		Where spawnbot_right
+		Where spawnbot_forwards
+		TotalCount 20	
+		MaxActive 8
+		SpawnCount 4
+		WaitBeforeStarting 10
+		WaitBetweenSpawns 5
+		TotalCurrency 150
+		TFBot
+		{
+			Template T_Winter_Soldier_RocketShotgun
+			ClassIcon soldier_blackbox_giant
+			Attributes AlwaysCrit
+			BehaviorModifiers	Push
+		}
+}
+WaveSpawn //BB Soldiers Support | 50
+{
+		WaitForAllDead "w5_solider_shotguns"
+		Name "w5_soldier_shotgun_support"
+		Where spawnbot_right
+		Where spawnbot_forwards
+		MaxActive 6
+		SpawnCount 3
+		WaitBeforeStarting 5
+		WaitBetweenSpawns 5
+		TotalCurrency 50
+		Support 1
+		TFBot
+		{
+			Template T_Winter_Soldier_RocketShotgun
+			ItemAttributes
+			{
+				ItemName "The Black Box"
+				"damage bonus" 0.8
+			}
+			Attributes AlwaysCrit
+			BehaviorModifiers	Push
+		}
+}
+WaveSpawn // Giant Scout Baseball | 100
+{
+TotalCurrency 100
+Name "w5_superscout_late"
+WaitForAllSpawned "w5_giant_demo"
+Where spawnbot_left
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 3
+MaxActive 3
+SpawnCount 1
+WaitBetweenSpawns 5
+WaitBeforeStarting 2
+RandomSpawn 1
+
+TFBot
+{
+Template T_Winter_Giant_Scout_Baseball
+Health 1250
+CharacterAttributes
+{
+	"move speed bonus" 0.8	
+}
+Tag bot_giant
+Attributes AlwaysCrit
+BehaviorModifiers	Push
+}
+}
+WaveSpawn // Giant Heavy Right | 100
+{
+TotalCurrency 100
+Name "w5_giant_boxing_heavy"
+WaitForAllDead "w5_giant_demo"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 10
+MaxActive 5
+SpawnCount 5
+WaitBeforeStarting 15
+WaitBetweenSpawns 5
+RandomSpawn 1
+
+Squad
+{
+	TFBot
+	{
+		Template T_Winter_Giant_Boxing_Heavy
+		Attributes AlwaysCrit
+		Health 5000
+		Tag bot_giant
+		BehaviorModifiers	Push
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+}
+}
+WaveSpawn // Giant Demo Boss | 100
+{
+TotalCurrency 100
+Name "w5_giant_boss"
+WaitForAllSpawned "w5_giant_boxing_heavy"
+Where spawnbot_right
+Where spawnbot_left
+Where spawnbot_forwards
+TotalCount 5
+MaxActive 5
+SpawnCount 5
+WaitBeforeStarting 15
+WaitBetweenSpawns 5
+RandomSpawn 1
+
+Squad
+{
+	TFBot
+	{
+		Template T_Winter_Giant_Demo_Boss_Gift
+		Attributes AlwaysCrit
+		Tag bot_giant
+		Tag bot_boss
+		BehaviorModifiers	Push
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+	TFBot
+	{
+		Template T_Winter_Medic_QuickUber
+		Tag bot_squad_member
+	}
+}
+}
+WaveSpawn //Heavy GRU Support | 150
+{
+	Name "w5_heavy_gru_support"
+	WaitForAllSpawned "w5_giant_boxing_heavy"
+	Where spawnbot_right
+	Where spawnbot_left
+	Where spawnbot_forwards
+	MaxActive 10
+	SpawnCount 5
+	WaitBeforeStarting 0
+	WaitBetweenSpawns 2
+	TotalCurrency 150
+	Support 1
+	TFBot
+	{
+	Template T_Winter_Running_Heavy
+	Attributes AlwaysCrit
+	Health 450
+	BehaviorModifiers Push
+		CharacterAttributes
+		{
+			"move speed bonus" 0.6
+		}
+	}
+}
+}
+
+//Wave 06 | Money: 1437 (1337 + 100) | Total:  7537 (600 Bonus)
+Wave
+{
+WaitWhenDone 60
+Sound "Announcer.IncomingMob"
+Checkpoint Yes
+
+StartWaveOutput
+{
+Target wave_start_relay
+Action trigger
+}
+DoneOutput												
+{
+Target wave_finished_relay						
+Action trigger									
+}
+
+WaveSpawn // Giant Demoman Burst right | 100
+{
+	TotalCurrency 1337
+	Name "w5_giant_demo"
+	Where spawnbot_right
+	Where spawnbot_forwards
+	TotalCount 1
+	MaxActive 1
+	SpawnCount 1
+	WaitBetweenSpawns 5
+	WaitBeforeStarting 10
+	RandomSpawn 1
+	TFBot
+	{
+		Template T_Winter_Scout_Melee_Final
+		ClassIcon soldier_sergeant_crits
+		Attributes AlwaysCrit
+		Tag bot_boss
+		Tag bot_giant
+		BehaviorModifiers	Push
+	}
+}
+WaveSpawn
+{
+TotalCurrency 0
+Name "Faker"
+WaitForAllDead "Faker"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 8
+MaxActive 10
+SpawnCount 10
+WaitBeforeStarting 5
+WaitBetweenSpawns 10
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes MiniBoss
+			ClassIcon tank
+		}
+	}
+}
+WaveSpawn
+{
+TotalCurrency 0
+Name "Faker"
+WaitForAllDead "Faker"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 40
+MaxActive 10
+SpawnCount 10
+WaitBeforeStarting 5
+WaitBetweenSpawns 10
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes MiniBoss
+			Attributes AlwaysCrit
+			ClassIcon soldier_blackbox_giant
+		}
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes MiniBoss
+			Attributes AlwaysCrit
+			ClassIcon soldier_crit
+		}
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes MiniBoss
+			Attributes AlwaysCrit
+			ClassIcon soldier_spammer
+		}
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes MiniBoss
+			Attributes AlwaysCrit
+			ClassIcon soldier_barrage
+		}
+	}
+}
+WaveSpawn
+{
+TotalCurrency 0
+Name "Faker"
+WaitForAllDead "Faker"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 36
+MaxActive 10
+SpawnCount 10
+WaitBeforeStarting 5
+WaitBetweenSpawns 10
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes MiniBoss
+			Attributes AlwaysCrit
+			ClassIcon heavy_deflector_healonkill
+		}
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes MiniBoss
+			Attributes AlwaysCrit
+			ClassIcon heavy
+		}
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes MiniBoss
+			Attributes AlwaysCrit
+			ClassIcon heavy_chief
+		}
+	}
+}
+WaveSpawn
+{
+TotalCurrency 0
+Name "Faker"
+WaitForAllDead "Faker"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 128
+MaxActive 10
+SpawnCount 10
+WaitBeforeStarting 5
+WaitBetweenSpawns 10
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes AlwaysCrit
+			ClassIcon scout_bonk
+		}
+	}
+}
+WaveSpawn
+{
+TotalCurrency 0
+Name "Faker"
+WaitForAllDead "Faker"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 64
+MaxActive 10
+SpawnCount 10
+WaitBeforeStarting 5
+WaitBetweenSpawns 10
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes AlwaysCrit
+			ClassIcon medic_uber
+		}
+	}
+}
+WaveSpawn
+{
+TotalCurrency 0
+Name "Faker"
+WaitForAllDead "Faker"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 32
+MaxActive 10
+SpawnCount 10
+WaitBeforeStarting 5
+WaitBetweenSpawns 10
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes AlwaysCrit
+			ClassIcon medic_kritz
+		}
+	}
+}
+WaveSpawn
+{
+TotalCurrency 0
+Name "Faker"
+WaitForAllDead "Faker"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 80
+MaxActive 10
+SpawnCount 10
+WaitBeforeStarting 5
+WaitBetweenSpawns 10
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes AlwaysCrit
+			ClassIcon heavy_shotgun
+		}
+	}
+}
+WaveSpawn
+{
+TotalCurrency 0
+Name "Faker"
+WaitForAllDead "Faker"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 54
+MaxActive 10
+SpawnCount 10
+WaitBeforeStarting 5
+WaitBetweenSpawns 10
+
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes AlwaysCrit
+			ClassIcon soldier_backup
+		}
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes AlwaysCrit
+			ClassIcon soldier_buff
+		}
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes AlwaysCrit
+			ClassIcon soldier_conch
+		}
+	}
+}
+WaveSpawn
+{
+TotalCurrency 0
+Name "Faker"
+WaitForAllDead "Faker"
+Where spawnbot_right
+Where spawnbot_forwards
+TotalCount 54
+MaxActive 10
+SpawnCount 10
+WaitBeforeStarting 5
+WaitBetweenSpawns 10
+Support 1
+	Squad
+	{
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes AlwaysCrit
+			ClassIcon soldier
+		}
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes AlwaysCrit
+			ClassIcon demo
+		}
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes AlwaysCrit
+			ClassIcon demo_burst
+		}
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes AlwaysCrit
+			ClassIcon demoknight
+		}
+		TFBot
+		{
+			Template T_Winter_Scout_Melee
+			Attributes AlwaysCrit
+			ClassIcon demoknight_samurai
+		}
+		
+	}
+}
+
+}
+
+//WaveInitializer - Do not write under
+}
